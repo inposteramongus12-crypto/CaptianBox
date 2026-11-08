@@ -160,3 +160,5 @@ ImageShot (push / pull / pan_left / pan_right), BigText (accent red/green/orange
 - shots.json собирается `node tools/script-shots.mjs`, 114 кадров. Заглушки не трогали. Озвучка и рендер не запускались. Список остатков: `out/storyboard/problems.md` (в git не входит).
 
 - Раунд 3 правок: BigText снизу на split опущен до 110 px от края (поле `bottom` у BigText), зазор до картинок ~80 px; 023 проверен, герой не обрезан (отступ справа 234 px).
+
+- Позы героя и качка для ролика: `missing-poses-script.md` (17 полных англ. промтов, префиксы, кадры). Картинки не генерировались.
