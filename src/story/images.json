@@ -109,6 +109,160 @@
    1
   ]
  },
+ "hero/hero_breathing_calm": {
+  "file": "hero/hero_breathing_calm.jpg",
+  "w": 497,
+  "h": 741,
+  "box": [
+   0.2314,
+   0.0243,
+   0.7666,
+   0.9973
+  ]
+ },
+ "hero/hero_cross_rotation_3q_back": {
+  "file": "hero/hero_cross_rotation_3q_back.jpg",
+  "w": 612,
+  "h": 912,
+  "box": [
+   0.0572,
+   0.1897,
+   0.9412,
+   0.9616
+  ]
+ },
+ "hero/hero_footwork_side": {
+  "file": "hero/hero_footwork_side.jpg",
+  "w": 496,
+  "h": 740,
+  "box": [
+   0.0847,
+   0.0486,
+   0.9153,
+   0.9514
+  ]
+ },
+ "hero/hero_heavy_bag": {
+  "file": "hero/hero_heavy_bag.jpg",
+  "w": 632,
+  "h": 942,
+  "box": [
+   0,
+   0.2463,
+   0.943,
+   0.9788
+  ]
+ },
+ "hero/hero_slip": {
+  "file": "hero/hero_slip.jpg",
+  "w": 586,
+  "h": 873,
+  "box": [
+   0.0631,
+   0.354,
+   0.9403,
+   0.9748
+  ]
+ },
+ "hero/kachok_arm_punch": {
+  "file": "hero/kachok_arm_punch.jpg",
+  "w": 674,
+  "h": 1005,
+  "box": [
+   0.0875,
+   0.1045,
+   0.9065,
+   1
+  ]
+ },
+ "hero/kachok_barbell": {
+  "file": "hero/kachok_barbell.jpg",
+  "w": 674,
+  "h": 1005,
+  "box": [
+   0.0163,
+   0.0348,
+   0.9955,
+   0.9711
+  ]
+ },
+ "hero/kachok_flex_biceps": {
+  "file": "hero/kachok_flex_biceps.jpg",
+  "w": 647,
+  "h": 964,
+  "box": [
+   0.0773,
+   0.0311,
+   0.9212,
+   0.9637
+  ]
+ },
+ "hero/kachok_gasping_low_guard": {
+  "file": "hero/kachok_gasping_low_guard.jpg",
+  "w": 671,
+  "h": 1000,
+  "box": [
+   0.1937,
+   0.107,
+   0.9136,
+   0.998
+  ]
+ },
+ "hero/kachok_guard_clumsy": {
+  "file": "hero/kachok_guard_clumsy.jpg",
+  "w": 611,
+  "h": 910,
+  "box": [
+   0.1113,
+   0.0374,
+   0.8953,
+   0.967
+  ]
+ },
+ "hero/kachok_hands_knees": {
+  "file": "hero/kachok_hands_knees.jpg",
+  "w": 671,
+  "h": 1000,
+  "box": [
+   0.1207,
+   0.329,
+   0.8659,
+   0.871
+  ]
+ },
+ "hero/kachok_hit_reeling": {
+  "file": "hero/kachok_hit_reeling.jpg",
+  "w": 629,
+  "h": 938,
+  "box": [
+   0.124,
+   0.0373,
+   0.9078,
+   0.9616
+  ]
+ },
+ "hero/kachok_stand_front": {
+  "file": "hero/kachok_stand_front.jpg",
+  "w": 679,
+  "h": 1012,
+  "box": [
+   0.1163,
+   0.0326,
+   0.8822,
+   0.9684
+  ]
+ },
+ "hero/kachok_wide_swing": {
+  "file": "hero/kachok_wide_swing.jpg",
+  "w": 674,
+  "h": 1005,
+  "box": [
+   0.1024,
+   0.1124,
+   0.8932,
+   1
+  ]
+ },
  "hero/point_right": {
   "file": "hero/point_right.jpg",
   "w": 848,
