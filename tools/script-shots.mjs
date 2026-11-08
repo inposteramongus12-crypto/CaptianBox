@@ -22,18 +22,45 @@ const OVERRIDES = {
 	'Scale с гирьками': {type: 'scale', data: {title: 'Что объясняет силу удара', left: {label: 'масса', value: 1, text: '', color: 'orange'}, right: {label: 'рост, размах рук, другое', value: 3, text: '', color: 'green'}}},
 	'BarChart «толщина волокна»': {type: 'bar', data: {title: 'Толщина волокна', unit: '%', bars: [{label: 'обычные', value: 100, color: 'green'}, {label: 'бодибилдеры', value: 188, color: 'red'}]}},
 	'BarChart «сила на единицу толщины»': {type: 'bar', data: {title: 'Сила на единицу толщины', unit: '%', bars: [{label: 'обычные', value: 100, color: 'green'}, {label: 'бодибилдеры', value: 59, color: 'orange'}]}},
-	'BarChart: «новички ≈2 400 Н»': {type: 'bar', data: {title: 'Прямой удар задней рукой', unit: 'Н', bars: [{label: 'новички', value: 2400, color: 'gray'}, {label: 'элита', value: 4800, color: 'green'}]}},
+	'BarChart: «новички ≈2 400 Н»': {type: 'bar', data: {title: 'Прямой удар задней рукой', unit: 'Н', approx: true, bars: [{label: 'новички', value: 2400, color: 'gray'}, {label: 'элита', value: 4800, color: 'green'}]}},
 	'BarChart без чисел': {type: 'bar', data: {title: 'Сколько тела доходит до кулака', noValues: true, bars: [{label: 'качок · 1', value: 9, color: 'red'}, {label: '2', value: 6, color: 'red'}, {label: '3', value: 3, color: 'red'}, {label: 'боксёр · 1', value: 9, color: 'green'}, {label: '2', value: 9, color: 'green'}, {label: '3', value: 8.5, color: 'green'}]}},
 	'Steps: три ступени «Раунд 1 · 2 · 3»': {type: 'steps', data: {steps: ['Раунд 1', 'Раунд 2', 'Раунд 3'], color: 'red'}},
 	'Steps как в хуке': {type: 'steps', data: {steps: ['Раунд 1', 'Раунд 2', 'Раунд 3'], color: 'red'}},
 	'Steps: три ступени-раунда': {type: 'steps', data: {steps: ['Раунд 1', 'Раунд 2', 'Раунд 3'], color: 'orange'}},
-	'Counter 3:00 → 0:00': {counter: {from: 3, to: 0, at: 0.3, dur: 60, suffix: ' мин', label: 'раунд', color: 'orange', pos: 'right'}},
-	'Counter 1:00 → 0:00': {counter: {from: 60, to: 0, at: 0.3, dur: 60, suffix: ' с', label: 'последняя минута', color: 'green', pos: 'right'}},
+	// clock counters: seconds, shown 3:00 → 0:00; the roll takes 85 % of the shot so the middle frame shows an intermediate value
+	'Counter 3:00 → 0:00': {counter: {from: 180, to: 0, at: 0.3, span: 0.85, linear: true, fmt: 'mmss', label: 'раунд', color: 'orange', pos: 'right'}},
+	'Counter 1:00 → 0:00': {counter: {from: 60, to: 0, at: 0.3, span: 0.85, linear: true, fmt: 'mmss', label: 'последняя минута', color: 'green', pos: 'right'}},
 };
+
+/* split halves whose labels are not readable from the note: key = a piece of the note; a, b = label of each half;
+   center = one plate over the divider; foot = a second plate under the picture of a half; none = no pill at all */
+const SPLITS = {
+	'подписи «100 кг» и «70 кг»': {a: {label: '100 кг'}, b: {label: '70 кг'}},
+	'подписи «большой» / «отлаженный»': {a: {label: 'большой'}, b: {label: 'отлаженный'}},
+	'подпись «рост = · возраст =»': {center: 'рост = · возраст ='},
+	'плашки «в сумме: больше» и «с сантиметра: меньше»': {a: {label: 'в сумме: больше', foot: 'с сантиметра: меньше'}, b: {label: ''}},
+};
+const SPEAKER = {КАЧОК: 'качок', ЗРИТЕЛИ: 'зрители'};
 
 const shots = [];
 let n = 0;
+let prevSplit = null;
 for (let i = 0; i < src.length; i++) {
+	const bm = src[i].match(/^\*Облачко — ([^:]+):\* «([^»]*)»/);
+	if (bm && shots.length) {
+		// speech bubble without a voice: a silent shot right after the previous voiced line, on the same picture
+		const prev = shots[shots.length - 1];
+		const bn = [];
+		for (let j = i + 1; j < src.length && src[j].startsWith('['); j++) bn.push(src[j].replace(/^\[|\]$/g, ''));
+		const bt = bn.join(' ');
+		const sh = {line: prev.line + 'b', silent: true, after: prev.line, hold: 2.4, type: 'image', img: prev.img, effect: 'push', pos: 'right', focus: prev.focus, note: bt, bubble: {text: bm[2], who: SPEAKER[bm[1].trim()] ?? bm[1].trim().toLowerCase(), at: 0.3, side: 'left', color: 'red'}};
+		const bb = [];
+		if (/схема, не измерения/.test(bt)) bb.push('схема, не измерения');
+		if (/условно/.test(bt)) bb.push('условно');
+		if (bb.length) sh.badges = bb;
+		shots.push(sh);
+		continue;
+	}
 	const m = src[i].match(/^\*\*(N|HERO|TEMA|GRANDPA):\*\* (.+)$/);
 	if (!m) continue;
 	n++;
@@ -53,7 +80,14 @@ for (let i = 0; i < src.length; i++) {
 		const body = t.slice(t.indexOf('Split') + 5).split(/[;.]\s/)[0];
 		const [a, b] = body.split('|');
 		const half = (s, def) => ({img: poses(s ?? '')[0] ?? 'hero/stand_front', label: quotes(s ?? '')[0] ?? '', color: colorOf(s ?? '', def)});
-		Object.assign(shot, {type: 'split', data: {a: half(a, 'red'), b: half(b, 'green')}});
+		let da = half(a, 'red'), db = half(b, 'green');
+		// «Split тот же»: the pictures of the previous split
+		if (/^\s*тот же/.test(body) && prevSplit) { da = {...da, img: prevSplit.a.img}; db = {...db, img: prevSplit.b.img}; }
+		const o = Object.entries(SPLITS).find(([k]) => t.includes(k))?.[1];
+		const data = {a: {...da, ...(o?.a ?? {})}, b: {...db, ...(o?.b ?? {})}};
+		if (o?.center) { data.a.label = ''; data.b.label = ''; data.center = o.center; }
+		prevSplit = data;
+		Object.assign(shot, {type: 'split', data});
 	} else if (first === 'IconGrid') {
 		const q = quotes(t.slice(t.indexOf('IconGrid')));
 		const r = (q[0] ?? '').match(/правила (\d)\/4/);
@@ -66,31 +100,52 @@ for (let i = 0; i < src.length; i++) {
 	} else if (first === 'BigText' || first === 'Counter') {
 		shot.type = 'text';
 	}
+	if (shot.type === 'image' && /Steps «[^»]*→/.test(t) && !ov.type) {
+		const q = quotes(t.slice(t.indexOf('Steps'))).find((x) => x.includes('→'));
+		Object.assign(shot, {type: 'steps', data: {steps: q.split('→').map((x) => x.trim()), color: colorOf(t.slice(t.indexOf('Steps')), 'green')}});
+		for (const k of ['effect', 'pos', 'focus']) delete shot[k];
+	}
+	if (shot.type === 'steps' && /качок на первой ступени/.test(t)) shot.data.mark = {step: 0, img: 'hero/kachok_stand_front'};
 	if (ov.type) { shot.type = ov.type; shot.data = ov.data; delete shot.img; delete shot.effect; delete shot.pos; delete shot.focus; if (ov.type === 'steps' && imgs[0]) shot.img = imgs[0]; }
 
 	// overlays
+	const co = t.match(/Callout[^«]*«([^»]*)»/);
 	const bt = t.match(/BigText[^«]*«([^»]*)»([^.]*)/);
-	if (bt && shot.type !== 'scale' && shot.type !== 'bar') {
+	if (bt && shot.type !== 'bar') {
 		const lines = bt[1].split(' · ').length > 1 ? bt[1].split(' · ') : [bt[1]];
-		shot.text = {lines, accent: colorOf(bt[2], 'orange'), pos: shot.type === 'image' ? 'bottom' : shot.type === 'text' ? 'center' : 'top', at: 0.3};
-		if (shot.type === 'image') shot.pos = 'center';
+		const chars = bt[1].replace(/\*/g, '').length;
+		// on a picture a long plate goes beside the hero (text left, hero right), never over the body; a short one stays at the bottom
+		const side = shot.type === 'image' && !co && (chars >= 14 || lines.length > 1);
+		// on a split the plate goes under the pictures; elsewhere at the top
+		const pos = shot.type === 'image' ? (side ? 'left' : 'bottom') : shot.type === 'text' ? 'center' : shot.type === 'split' ? 'bottom' : 'top';
+		shot.text = {lines: side ? lines.map((l) => l.replace(/ (\S+)$/, '\u00a0$1')) : lines, accent: colorOf(bt[2], 'orange'), pos, at: 0.3, ...(side ? {size: lines.length >= 3 ? 72 : 76} : {})};
+		if (shot.type === 'image') shot.pos = side ? 'right' : 'center';
 	}
 	const cn = t.match(/Counter (\d+)→(\d+) «([^»]*)»/);
 	if (cn) shot.counter = {from: +cn[1], to: +cn[2], at: 0.3, dur: 45, suffix: ' %', label: cn[3].replace(/^%\s*/, ''), color: colorOf(t.slice(t.indexOf('Counter')), 'orange'), pos: shot.type === 'text' ? 'center' : 'right'};
 	if (ov.counter) shot.counter = ov.counter;
-	const co = t.match(/Callout[^«]*«([^»]*)»/);
 	if (co && shot.type === 'image') {
 		const low = /ступн|бёдр/.test(t);
 		shot.callout = {from: [0.5, low ? 0.85 : 0.45], to: [0.72, low ? 0.72 : 0.25], text: co[1], at: 0.4, color: colorOf(t.slice(t.indexOf('Callout')), 'orange')};
 	}
 	const sl = t.match(/SlideIn[^«]*«([^»]*)»/);
-	if (sl) shot.slide = {from: 'bottom', at: 0.4, text: {lines: [sl[1]], accent: 'orange', pos: 'bottom'}};
+	// a slide-in plate over a grid of figures would cover them: it comes from the top
+	if (sl) shot.slide = shot.type === 'icons' ? {from: 'top', at: 0.4, text: {lines: [sl[1]], accent: 'orange', pos: 'top'}} : {from: 'bottom', at: 0.4, text: {lines: [sl[1]], accent: 'orange', pos: 'bottom'}};
+	const vb = t.match(/Облачк[а-я]* зрителей: «([^»]*)»/);
+	if (vb) { shot.bubble = {text: vb[1], who: 'зрители', at: 0.6, side: 'left', color: 'gray'}; if (shot.type === 'image') shot.pos = 'right'; }
+	// scoreboard «правила N/4» (not when the grid itself is the base)
+	const bd = t.match(/IconGrid «правила (\d)\/4»/) ?? t.match(/IconGrid мини: подсвечено «(\d)»/);
+	if (bd && shot.type !== 'icons') shot.board = {n: +bd[1], total: 4, label: 'правила', at: 0.4};
+	const th = t.match(/затем ImageShot (\w+)/);
+	if (th) shot.then = {at: 0.65, img: 'hero/' + th[1]};
 	const sc = t.match(/SourceCaption «([^»]*)»/);
 	if (sc) shot.source = sc[1];
 
 	// plates: «схема, не измерения» / «условно» / «вес групп не сравнивали» / «бедро, 32 человека» / «вывод, не измерение» / «одно исследование» / «образ»
 	const badges = [];
 	if (/схема, не измерения/.test(t) || /Подпись «схема»/.test(t)) badges.push('схема, не измерения');
+	const pl = t.match(/Плашка «([^»]*?) · условно»/);
+	if (pl) badges.push(pl[1]);
 	if (/условно/.test(t)) badges.push('условно');
 	for (const b of ['вес групп не сравнивали', 'вывод, не измерение', 'одно исследование', 'образ'])
 		if (new RegExp(`(Подпись|Плашка|подпись) «${b}»`).test(t) && !(shot.source ?? '').includes(b)) badges.push(b);

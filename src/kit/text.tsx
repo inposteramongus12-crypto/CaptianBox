@@ -46,14 +46,20 @@ export const SlideIn: React.FC<{from?: 'left' | 'right' | 'top' | 'bottom'; at?:
 	return <AbsoluteFill style={{pointerEvents: 'none', transform: `translate(${off[0] * (1 - k)}px,${off[1] * (1 - k)}px)`}}>{children}</AbsoluteFill>;
 };
 
-/* number that rolls from a to b, then pops; on a navy plate */
-export const Counter: React.FC<{from: number; to: number; at?: number; dur?: number; label?: string; suffix?: string; color?: string; pos?: 'center' | 'right' | 'left' | 'top'}> = ({from, to, at = 0, dur = 30, label, suffix = '', color = 'orange', pos = 'right'}) => {
+/* number that rolls from a to b, then pops; on a navy plate.
+   fmt 'mmss': the value is seconds, shown as 3:00 … 0:00. span: the roll lasts that share (0..1) of the shot instead of dur frames,
+   so a middle frame of the shot shows an intermediate value. linear: constant speed instead of a fast start. */
+export const Counter: React.FC<{from: number; to: number; at?: number; dur?: number; label?: string; suffix?: string; color?: string; pos?: 'center' | 'right' | 'left' | 'top'; fmt?: 'mmss'; span?: number; linear?: boolean}> = ({from, to, at = 0, dur = 30, label, suffix = '', color = 'orange', pos = 'right', fmt, span, linear}) => {
 	const f = useCurrentFrame();
+	const {durationInFrames} = useVideoConfig();
 	const {W, pad, v} = useLayout();
 	if (f < at) return null;
-	const val = interpolate(f, [at, at + dur], [from, to], {...clampX, easing: Easing.out(Easing.cubic)});
-	const lock = f - at - dur;
+	const d = span ? Math.max(1, Math.round(span * durationInFrames) - at) : dur;
+	const val = interpolate(f, [at, at + d], [from, to], {...clampX, easing: linear ? undefined : Easing.out(Easing.cubic)});
+	const lock = f - at - d;
 	const pop = lock >= 0 && lock < 12 ? 1 + 0.1 * Math.exp(-lock / 4) : 1;
+	const sec = Math.round(val);
+	const shown = fmt === 'mmss' ? `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}` : `${sec}${suffix}`;
 	const box: React.CSSProperties =
 		pos === 'right' ? {right: pad + 40, top: '50%', transform: `translateY(-50%) scale(${pop})`} :
 		pos === 'left' ? {left: pad + 40, top: '50%', transform: `translateY(-50%) scale(${pop})`} :
@@ -64,7 +70,51 @@ export const Counter: React.FC<{from: number; to: number; at?: number; dur?: num
 			<div style={{position: 'absolute', ...box}}>
 				<Plate border={accent(color)} size={v ? 140 : 170} style={{textAlign: 'center', padding: '10px 44px'}}>
 					{label ? <div style={{fontSize: 46, color: COL.dim, fontWeight: 700}}>{label}</div> : null}
-					<span style={{color: accent(color)}}>{Math.round(val)}{suffix}</span>
+					<span style={{color: accent(color)}}>{shown}</span>
+				</Plate>
+			</div>
+		</AbsoluteFill>
+	);
+};
+
+/* speech bubble on the picture (no voice): who is a small caption above, the text in quotes, a tail towards the speaker.
+   side = which side of the frame the bubble sits on; the tail points to the centre. */
+export const Bubble: React.FC<{text: string; who?: string; at?: number; side?: 'left' | 'right'; color?: string}> = ({text, who, at = 0, side = 'left', color = 'red'}) => {
+	const f = useCurrentFrame();
+	const {fps} = useVideoConfig();
+	const {W, H, pad} = useLayout();
+	if (f < at) return null;
+	const k = spring({frame: f - at, fps, config: {damping: 13, stiffness: 140}});
+	const c = accent(color);
+	const left = side === 'left';
+	return (
+		<AbsoluteFill style={{pointerEvents: 'none'}}>
+			<div style={{position: 'absolute', top: H * 0.2, [left ? 'left' : 'right']: pad, maxWidth: W * 0.3, opacity: Math.min(1, k * 1.5), transform: `scale(${0.8 + 0.2 * k})`, transformOrigin: left ? '80% 100%' : '20% 100%', textAlign: left ? 'left' : 'right'}}>
+				{who ? <div style={{fontFamily: FONT, fontWeight: 700, fontSize: 44, color: COL.dim, marginBottom: 6}}>{who}</div> : null}
+				<Plate size={64} border={c} style={{borderRadius: 44, textAlign: 'left'}}>«{text}»</Plate>
+				<div style={{width: 0, height: 0, borderLeft: '26px solid transparent', borderRight: '26px solid transparent', borderTop: `40px solid ${c}`, ...(left ? {marginLeft: 'auto', marginRight: 70} : {marginRight: 'auto', marginLeft: 70})}} />
+			</div>
+		</AbsoluteFill>
+	);
+};
+
+/* scoreboard «правила 3/4»: n of total cells lit, top-right corner */
+export const Board: React.FC<{n: number; total?: number; label?: string; at?: number}> = ({n, total = 4, label = 'правила', at = 0}) => {
+	const f = useCurrentFrame();
+	const {fps} = useVideoConfig();
+	const o = interpolate(f, [at, at + 8], [0, 1], clampX);
+	return (
+		<AbsoluteFill style={{pointerEvents: 'none'}}>
+			<div style={{position: 'absolute', top: 64, right: 64, opacity: o}}>
+				<Plate size={48} border={COL.green} style={{display: 'flex', alignItems: 'center', gap: 18, padding: '10px 28px'}}>
+					<span>{label}</span>
+					<span style={{display: 'flex', gap: 8}}>
+						{Array.from({length: total}, (_, i) => {
+							const pop = i < n ? spring({frame: f - at - 6 - i * 8, fps, config: {damping: 10, stiffness: 160}}) : 0;
+							return <span key={i} style={{width: 34, height: 34, borderRadius: 8, background: i < n && pop > 0.3 ? COL.green : '#2a2f4d', transform: `scale(${i < n ? 0.8 + 0.3 * pop : 1})`}} />;
+						})}
+					</span>
+					<span style={{color: COL.green}}>{n}/{total}</span>
 				</Plate>
 			</div>
 		</AbsoluteFill>

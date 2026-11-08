@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
-import {COL, FONT, Plate, accent, clampX, useLayout} from './theme';
+import {COL, FONT, Plate, SAFE, accent, clampX, useLayout} from './theme';
 import {Pic, imgInfo} from './media';
 
 const useSpring = (at = 0, damping = 15, stiffness = 120) => {
@@ -11,7 +11,7 @@ const useSpring = (at = 0, damping = 15, stiffness = 120) => {
 
 /* ---------- BarChart: vertical bars grow from the baseline, value on a plate above ---------- */
 export type Bar = {label: string; value: number; color?: string; at?: number; instant?: boolean};
-export const BarChart: React.FC<{bars: Bar[]; unit?: string; title?: string; max?: number; noValues?: boolean}> = ({bars, unit = '', title, max, noValues}) => {
+export const BarChart: React.FC<{bars: Bar[]; unit?: string; title?: string; max?: number; noValues?: boolean; approx?: boolean}> = ({bars, unit = '', title, max, noValues, approx}) => {
 	const f = useCurrentFrame();
 	const {fps} = useVideoConfig();
 	const {W, H, pad, v} = useLayout();
@@ -39,10 +39,10 @@ export const BarChart: React.FC<{bars: Bar[]; unit?: string; title?: string; max
 						<div style={{position: 'absolute', left: x, top: base - h, width: bw, height: h, background: c, borderRadius: '18px 18px 0 0'}} />
 						{noValues ? null : (
 							<div style={{position: 'absolute', left: x - 40, width: bw + 80, top: base - h - 100, textAlign: 'center', opacity: Math.min(1, k * 2)}}>
-								<Plate size={64} border={c}>{Math.round(b.value * k)}{unit ? ' ' + unit : ''}</Plate>
+								<Plate size={64} border={c}>{approx ? '≈' + String(Math.round(b.value * k)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') : Math.round(b.value * k)}{unit ? ' ' + unit : ''}</Plate>
 							</div>
 						)}
-						<div style={{position: 'absolute', left: x - 50, width: bw + 100, top: base + 26, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: 61, lineHeight: 1.1, color: '#fff'}}>{b.label}</div>
+						<div style={{position: 'absolute', left: x - 50, width: bw + 100, top: base + 26, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: bars.length > 4 ? 52 : 61, lineHeight: 1.1, color: '#fff', whiteSpace: 'nowrap'}}>{b.label}</div>
 					</React.Fragment>
 				);
 			})}
@@ -143,7 +143,7 @@ export const IconGrid: React.FC<{img: string; total: number; hi: number; cols?: 
 };
 
 /* ---------- Steps: stairs rising to the right, each with its number and a word; optional picture beside ---------- */
-export const Steps: React.FC<{steps: string[]; title?: string; color?: string; img?: string}> = ({steps, title, color = 'green', img}) => {
+export const Steps: React.FC<{steps: string[]; title?: string; color?: string; img?: string; mark?: {step: number; img: string}}> = ({steps, title, color = 'green', img, mark}) => {
 	const f = useCurrentFrame();
 	const {W, H, pad, v} = useLayout();
 	const c = accent(color);
@@ -152,6 +152,7 @@ export const Steps: React.FC<{steps: string[]; title?: string; color?: string; i
 	// the stairs take whatever is left of the width, with an 80 px gap before the picture
 	const areaW = W - 2 * pad - (img ? imgW + 80 : 0);
 	const sw = areaW / steps.length;
+	const rise = Math.min(170, (H - 190 - SAFE - 240) / Math.max(1, steps.length - 1)); // the last step never reaches the 60 px edge
 	return (
 		<AbsoluteFill style={{background: '#000'}}>
 			{title ? (
@@ -161,7 +162,7 @@ export const Steps: React.FC<{steps: string[]; title?: string; color?: string; i
 			) : null}
 			{steps.map((s, i) => {
 				const k = spring({frame: f - 8 - i * 12, fps: 30, config: {damping: 14, stiffness: 110}});
-				const h = (240 + i * 170) * k;
+				const h = (240 + i * rise) * k;
 				return (
 					<div key={i} style={{position: 'absolute', left: pad + i * sw, bottom: 190, width: sw - 10, height: h, background: '#1c2142', borderTop: `10px solid ${c}`, borderRadius: '14px 14px 0 0', overflow: 'hidden', textAlign: 'center', fontFamily: FONT, color: '#fff'}}>
 						<div style={{fontSize: 110, fontWeight: 900, color: c, lineHeight: 1.1}}>{i + 1}</div>
@@ -169,6 +170,11 @@ export const Steps: React.FC<{steps: string[]; title?: string; color?: string; i
 					</div>
 				);
 			})}
+			{mark ? (
+				<div style={{position: 'absolute', left: pad + mark.step * sw + (sw - 10) / 2 - (300 * (imgInfo(mark.img)?.ar ?? 0.67)) / 2, bottom: 190 + 240 + 10, opacity: interpolate(f, [20, 32], [0, 1], clampX)}}>
+					<Pic name={mark.img} height={300} />
+				</div>
+			) : null}
 			{img ? (
 				<div style={{position: 'absolute', left: W - pad - imgW, bottom: 190, opacity: interpolate(f, [4, 16], [0, 1], clampX)}}>
 					<Pic name={img} height={imgH} />
@@ -179,8 +185,8 @@ export const Steps: React.FC<{steps: string[]; title?: string; color?: string; i
 };
 
 /* ---------- Split: two panels with pictures slide in from opposite sides ---------- */
-export type Half = {label: string; num?: string; sub?: string; img: string; color?: string};
-export const Split: React.FC<{a: Half; b: Half}> = ({a, b}) => {
+export type Half = {label: string; num?: string; sub?: string; foot?: string; img: string; color?: string}; // label '' = no pill; foot = a second plate under the picture
+export const Split: React.FC<{a: Half; b: Half; center?: string}> = ({a, b, center}) => {
 	const f = useCurrentFrame();
 	const {fps} = useVideoConfig();
 	const {W, H, pad} = useLayout();
@@ -194,9 +200,16 @@ export const Split: React.FC<{a: Half; b: Half}> = ({a, b}) => {
 		return (
 			<AbsoluteFill style={{transform: `translateX(${(first ? -1 : 1) * (1 - k) * W * 0.55}px)`}}>
 				<AbsoluteFill style={{background: first ? '#0b1020' : '#14090d', clipPath: clip}} />
-				<div style={{position: 'absolute', left: cx - W * 0.22, width: W * 0.44, top: pad, textAlign: 'center'}}>
-					<Plate size={56} border={c}>{h.label}</Plate>
-				</div>
+				{h.label ? (
+					<div style={{position: 'absolute', left: cx - W * 0.22, width: W * 0.44, top: pad, textAlign: 'center'}}>
+						<Plate size={56} border={c}>{h.label}</Plate>
+					</div>
+				) : null}
+				{h.foot ? (
+					<div style={{position: 'absolute', left: cx - W * 0.22, width: W * 0.44, top: 190 + ih + 24, textAlign: 'center'}}>
+						<Plate size={56} border={c}>{h.foot}</Plate>
+					</div>
+				) : null}
 				<div style={{position: 'absolute', left: cx - (ih * 848) / 1264 / 2, top: 190}}>
 					<Pic name={h.img} height={ih} />
 				</div>
@@ -218,6 +231,11 @@ export const Split: React.FC<{a: Half; b: Half}> = ({a, b}) => {
 			<svg width={W} height={H} style={{position: 'absolute', inset: 0}}>
 				<line x1={W * 0.526} y1={0} x2={W * 0.474} y2={H} stroke="#fff" strokeWidth={8} opacity={Math.min(ka, kb)} />
 			</svg>
+			{center ? (
+				<div style={{position: 'absolute', left: 0, right: 0, top: pad, textAlign: 'center', opacity: Math.min(ka, kb)}}>
+					<Plate size={56}>{center}</Plate>
+				</div>
+			) : null}
 		</AbsoluteFill>
 	);
 };
