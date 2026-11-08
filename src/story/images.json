@@ -230,6 +230,17 @@
    0.871
   ]
  },
+ "hero/kachok_handshake": {
+  "file": "hero/kachok_handshake.jpg",
+  "w": 655,
+  "h": 976,
+  "box": [
+   0.0916,
+   0.0369,
+   0.9557,
+   0.9641
+  ]
+ },
  "hero/kachok_hit_reeling": {
   "file": "hero/kachok_hit_reeling.jpg",
   "w": 629,

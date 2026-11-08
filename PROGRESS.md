@@ -177,3 +177,8 @@ ImageShot (push / pull / pan_left / pan_right), BigText (accent red/green/orange
 - `public/hero/anchors.json` (собирает `python3 tools/make-anchors.py`): для 14 новых поз и `punch_cross` точки head, fist_front, hip, foot_front, foot_back, belly, shoulder (доли картинки) и сетка силуэта 40 колонок. Найдены по маске фигуры; вручную заданы только направление взгляда (R/L/F) и рука на грифе у `kachok_barbell`.
 - `Callout` с полем `anchor` (в shots.json): точка стоит на теле и едет за картинкой при zoom/pan, плашка ставится автоматически так, чтобы не лежать на фигуре (проверка в начале, середине и конце движения, отступ 28 px), на плашках бейджей и текста. Zoom не менялся. Выноски: 007, 019, 021, 024, 030, 041, 062, 063, 083, 085, 087.
 - Фон: убраны линия пола в `kachok_hands_knees`, точки в `kachok_wide_swing`, мелкие остатки на остальных (`despeckle` в нарезке). Вне фигуры остались только значения ≤ 13/255.
+
+## Этап 8 (ролик): kachok_handshake, 062 и 063, полная раскадровка
+- kachok_handshake.jpg: левая фигура листа B (рамка 23,250–427,901), та же обработка, что у остальных поз; точки в anchors.json (16 поз). Заглушек 0.
+- 062: выноска «устали» на foot_front. 063: BigText слева, герой справа, выноска ищет место сама.
+- Раскадровка 114 кадров, листы по 12: out/storyboard/full_sheet_01..10.jpg (в git не входят), остатки: out/storyboard/problems.md.

@@ -1162,7 +1162,7 @@
    "text": "устали",
    "at": 0.4,
    "color": "orange",
-   "anchor": "hip"
+   "anchor": "foot_front"
   }
  },
  {
@@ -1171,18 +1171,19 @@
   "note": "ImageShot punch_cross, Callout на корпус: «разворот», красный. BigText «устали ноги: *кросс и хук слабее*».",
   "img": "hero/punch_cross",
   "effect": "push",
-  "pos": "center",
+  "pos": "right",
   "focus": [
    0.5,
    0.3
   ],
   "text": {
    "lines": [
-    "устали ноги: *кросс и хук слабее*"
+    "устали ноги: *кросс и хук слабее*"
    ],
    "accent": "orange",
-   "pos": "bottom",
-   "at": 0.3
+   "pos": "left",
+   "at": 0.3,
+   "size": 76
   },
   "callout": {
    "from": [

@@ -12,7 +12,7 @@ from PIL import Image
 POSES = {  # name: facing
     'hero_cross_rotation_3q_back': 'R', 'hero_footwork_side': 'R', 'hero_breathing_calm': 'F', 'hero_slip': 'R', 'hero_heavy_bag': 'R',
     'kachok_wide_swing': 'R', 'kachok_arm_punch': 'R', 'kachok_hands_knees': 'R', 'kachok_gasping_low_guard': 'F', 'kachok_hit_reeling': 'L',
-    'kachok_stand_front': 'F', 'kachok_flex_biceps': 'F', 'kachok_barbell': 'F', 'kachok_guard_clumsy': 'F', 'punch_cross': 'R',
+    'kachok_stand_front': 'F', 'kachok_flex_biceps': 'F', 'kachok_barbell': 'F', 'kachok_guard_clumsy': 'F', 'punch_cross': 'R', 'kachok_handshake': 'R',
 }
 GRID = 40
 FIST_BAND = {'kachok_flex_biceps': (0.0, 0.2)}   # band of the figure height (fractions) where the front fist is looked for

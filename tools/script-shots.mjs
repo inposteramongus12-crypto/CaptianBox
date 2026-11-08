@@ -41,7 +41,7 @@ const SPLITS = {
 	'плашки «в сумме: больше» и «с сантиметра: меньше»': {a: {label: 'в сумме: больше', foot: 'с сантиметра: меньше'}, b: {label: ''}},
 };
 /* which body point (public/hero/anchors.json) a callout points at, by its text */
-const ANCHOR = {'ноги стоят': 'foot_front', 'запомни': 'foot_front', 'начало здесь': 'shoulder', 'стопа → бедро → плечо': 'hip', 'на сантиметр': 'belly', 'устали': 'hip', 'разворот': 'belly', 'мимо': 'head', 'сначала — он': 'fist_front'};
+const ANCHOR = {'ноги стоят': 'foot_front', 'запомни': 'foot_front', 'начало здесь': 'shoulder', 'стопа → бедро → плечо': 'hip', 'на сантиметр': 'belly', 'устали': 'foot_front', 'разворот': 'belly', 'мимо': 'head', 'сначала — он': 'fist_front'};
 const SPEAKER = {КАЧОК: 'качок', ЗРИТЕЛИ: 'зрители'};
 
 const shots = [];
@@ -117,7 +117,7 @@ for (let i = 0; i < src.length; i++) {
 		const lines = bt[1].split(' · ').length > 1 ? bt[1].split(' · ') : [bt[1]];
 		const chars = bt[1].replace(/\*/g, '').length;
 		// on a picture a long plate goes beside the hero (text left, hero right), never over the body; a short one stays at the bottom
-		const side = shot.type === 'image' && !co && (chars >= 14 || lines.length > 1);
+		const side = shot.type === 'image' && (!co || ANCHOR[co[1]]) && (chars >= 14 || lines.length > 1);
 		// on a split the plate goes under the pictures; elsewhere at the top
 		const pos = shot.type === 'image' ? (side ? 'left' : 'bottom') : shot.type === 'text' ? 'center' : shot.type === 'split' ? 'bottom' : 'top';
 		shot.text = {lines: side ? lines.map((l) => l.replace(/ (\S+)$/, '\u00a0$1')) : lines, accent: colorOf(bt[2], 'orange'), pos, at: 0.3, ...(shot.type === 'split' ? {bottom: 110} : {}), ...(side ? {size: lines.length >= 3 ? 72 : 76} : {})};
