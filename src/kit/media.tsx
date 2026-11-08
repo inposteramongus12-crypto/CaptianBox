@@ -28,25 +28,45 @@ export const Pic: React.FC<{name: string; height: number; style?: React.CSSPrope
 
 export type Effect = 'push' | 'pull' | 'pan_left' | 'pan_right' | 'none';
 const X = {left: 0.3, center: 0.5, right: 0.7};
-/* hero picture, full height on black, with a slow push in / pull out / sideways drift.
-   focus = point of the picture (0..1) the zoom grows from. */
-export const ImageShot: React.FC<{name: string; effect?: Effect; pos?: 'left' | 'center' | 'right'; focus?: [number, number]; base?: number}> = ({name, effect = 'push', pos = 'center', focus = [0.5, 0.35], base = 1}) => {
+const EDGE = 60;
+
+/* Biggest picture height h (and its top T) such that the hero's content box stays >= 60 px from the top and
+   bottom of the frame at both ends of the zoom (z0 -> z1), with the zoom growing from focus point fy. */
+const fit = (H: number, box: number[] | undefined, fy: number, z0: number, z1: number) => {
+	const ct = box ? box[1] : 0;
+	const cb = box ? box[3] : 1;
+	for (let s = 1; s > 0.3; s -= 0.005) {
+		const h = H * s;
+		const T = H / 2 - ((ct + cb) / 2) * h;
+		const oy = T + fy * h;
+		const ok = [z0, z1].every((z) => oy + (ct * h - fy * h) * z >= EDGE && oy + (cb * h - fy * h) * z <= H - EDGE);
+		if (ok) return {h, T};
+	}
+	return {h: H * 0.3, T: H * 0.35};
+};
+
+/* hero picture on black with a slow push in / pull out / sideways drift. The scale changes by `zoom`
+   (default 25 %) over the shot. focus = point of the picture (0..1) the zoom grows from. The picture is sized so that
+   the hero never gets closer than 60 px to the top or bottom edge, even at the biggest zoom. */
+export const ImageShot: React.FC<{name: string; effect?: Effect; pos?: 'left' | 'center' | 'right'; focus?: [number, number]; zoom?: number}> = ({name, effect = 'push', pos = 'center', focus = [0.5, 0.35], zoom = 0.25}) => {
 	const f = useCurrentFrame();
 	const {durationInFrames} = useVideoConfig();
 	const {W, H} = useLayout();
 	const k = interpolate(f, [0, Math.max(1, durationInFrames - 1)], [0, 1], {...clampX, easing: ease});
-	let z = 1;
-	let dx = 0;
-	if (effect === 'push') z = 1 + 0.18 * k;
-	if (effect === 'pull') z = 1.18 - 0.18 * k;
-	if (effect === 'pan_left') [z, dx] = [1.1, 50 - 100 * k];
-	if (effect === 'pan_right') [z, dx] = [1.1, -50 + 100 * k];
-	const h = H * base;
 	const i = imgInfo(name);
+	const e = (IMAGES as Record<string, {box?: number[]}>)[name];
+	let [z0, z1, dx0, dx1] = [1, 1, 0, 0];
+	if (effect === 'push') [z0, z1] = [1, 1 + zoom];
+	if (effect === 'pull') [z0, z1] = [1 + zoom, 1];
+	if (effect === 'pan_left') [z0, z1, dx0, dx1] = [1, 1 + zoom * 0.6, 50, -50];
+	if (effect === 'pan_right') [z0, z1, dx0, dx1] = [1, 1 + zoom * 0.6, -50, 50];
+	const z = z0 + (z1 - z0) * k;
+	const dx = dx0 + (dx1 - dx0) * k;
+	const {h, T} = fit(H, e?.box, focus[1], Math.min(z0, z1), Math.max(z0, z1));
 	const w = h * (i?.ar ?? 1);
 	return (
 		<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-			<div style={{position: 'absolute', left: W * X[pos] - w / 2, top: (H - h) / 2, width: w, height: h, transformOrigin: `${focus[0] * 100}% ${focus[1] * 100}%`, transform: `translateX(${dx}px) scale(${z})`}}>
+			<div style={{position: 'absolute', left: W * X[pos] - w / 2, top: T, width: w, height: h, transformOrigin: `${focus[0] * 100}% ${focus[1] * 100}%`, transform: `translateX(${dx}px) scale(${z})`}}>
 				<Pic name={name} height={h} />
 			</div>
 		</AbsoluteFill>

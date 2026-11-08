@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {COL, FONT, Plate, accent, clampX, useLayout} from './theme';
-import {Pic} from './media';
+import {Pic, imgInfo} from './media';
 
 const useSpring = (at = 0, damping = 15, stiffness = 120) => {
 	const f = useCurrentFrame();
@@ -17,7 +17,7 @@ export const BarChart: React.FC<{bars: Bar[]; unit?: string; title?: string; max
 	const {W, H, pad, v} = useLayout();
 	const mx = max ?? Math.max(...bars.map((b) => b.value)) * 1.15;
 	const top = title ? 300 : 190;
-	const base = H - 290;
+	const base = H - 330;
 	const area = base - top;
 	const slot = (W - 2 * pad) / bars.length;
 	const bw = Math.min(300, slot * 0.6);
@@ -40,7 +40,7 @@ export const BarChart: React.FC<{bars: Bar[]; unit?: string; title?: string; max
 						<div style={{position: 'absolute', left: x - 40, width: bw + 80, top: base - h - 100, textAlign: 'center', opacity: Math.min(1, k * 2)}}>
 							<Plate size={64} border={c}>{Math.round(b.value * k)}{unit ? ' ' + unit : ''}</Plate>
 						</div>
-						<div style={{position: 'absolute', left: x - 50, width: bw + 100, top: base + 26, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: 46, lineHeight: 1.1, color: '#fff'}}>{b.label}</div>
+						<div style={{position: 'absolute', left: x - 50, width: bw + 100, top: base + 26, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: 61, lineHeight: 1.1, color: '#fff'}}>{b.label}</div>
 					</React.Fragment>
 				);
 			})}
@@ -64,6 +64,7 @@ export const Scale: React.FC<{left: Side; right: Side; unit?: string; title?: st
 		{s: right, x: cx + L * Math.cos(rad), y: cy + L * Math.sin(rad)},
 	];
 	const drop = 220;
+	const pw = Math.min(540, W / 2 - pad);
 	return (
 		<AbsoluteFill style={{background: '#000'}}>
 			{title ? (
@@ -88,10 +89,10 @@ export const Scale: React.FC<{left: Side; right: Side; unit?: string; title?: st
 				})}
 			</svg>
 			{ends.map(({s, x, y}, i) => (
-				<div key={i} style={{position: 'absolute', left: x - 210, width: 420, top: y + drop + 100, textAlign: 'center'}}>
+				<div key={i} style={{position: 'absolute', left: x - pw / 2, width: pw, top: y + drop + 100, textAlign: 'center'}}>
 					<Plate border={accent(s.color ?? (i ? 'green' : 'orange'))} style={{padding: '10px 24px'}}>
-						<div style={{fontSize: 44, color: COL.dim, fontWeight: 700}}>{s.label}</div>
-						<div style={{fontSize: 72}}>{s.value}{unit ? ' ' + unit : ''}</div>
+						<div style={{fontSize: 58, color: COL.dim, fontWeight: 700}}>{s.label}</div>
+						<div style={{fontSize: 96}}>{s.value}{unit ? <span style={{fontSize: 56}}> {unit}</span> : null}</div>
 					</Plate>
 				</div>
 			))}
@@ -105,32 +106,33 @@ export const IconGrid: React.FC<{img: string; total: number; hi: number; cols?: 
 	const {W, H, pad, v} = useLayout();
 	const c = accent(color);
 	const rows = Math.ceil(total / cols);
-	const gap = 16;
-	const ih = Math.min(170, (H * 0.36) / rows - gap);
+	const gap = 20;
+	const top = v ? 360 : 290;
+	const availH = H - top - 300; // room left for the caption plate and the 60 px edge
+	const ih = Math.min((availH - (rows - 1) * gap) / rows, ((W - 2 * pad - (cols - 1) * gap) / cols) * (1264 / 848));
 	const iw = ih * (848 / 1264);
 	const gw = cols * iw + (cols - 1) * gap;
-	const scale = Math.min(1, (W - 2 * pad) / gw);
 	const k = useSpring(0);
 	return (
 		<AbsoluteFill style={{background: '#000'}}>
 			{num ? (
-				<div style={{position: 'absolute', top: pad - 20, left: 0, right: 0, textAlign: 'center', opacity: k}}>
-					<Plate size={v ? 150 : 190} style={{color: c, padding: '6px 54px'}}>{num}</Plate>
+				<div style={{position: 'absolute', top: pad, left: 0, right: 0, textAlign: 'center', opacity: k}}>
+					<Plate size={v ? 130 : 170} style={{color: c, padding: '6px 54px'}}>{num}</Plate>
 				</div>
 			) : null}
-			<div style={{position: 'absolute', left: (W - gw * scale) / 2, top: H * 0.34, width: gw, transform: `scale(${scale})`, transformOrigin: '0 0', display: 'flex', flexWrap: 'wrap', gap}}>
+			<div style={{position: 'absolute', left: (W - gw) / 2, top, width: gw, display: 'flex', flexWrap: 'wrap', gap}}>
 				{Array.from({length: total}, (_, i) => {
 					const lit = i < hi;
 					const pop = lit ? spring({frame: f - 14 - i * 5, fps: 30, config: {damping: 10, stiffness: 160}}) : 1;
 					return (
-						<div key={i} style={{width: iw, height: ih, opacity: lit ? 1 : 0.35, filter: lit ? 'none' : 'grayscale(1)', transform: `scale(${0.7 + 0.3 * pop})`, outline: lit ? `4px solid ${c}` : 'none', outlineOffset: 2}}>
+						<div key={i} style={{position: 'relative', width: iw, height: ih, opacity: lit ? 1 : 0.22, filter: lit ? 'none' : 'grayscale(1) brightness(0.7)', transform: `scale(${lit ? 0.85 + 0.2 * pop : 1})`, zIndex: lit ? 2 : 1, boxShadow: lit ? `0 0 0 6px ${c}, 0 0 36px 8px ${c}` : 'none', borderRadius: 10}}>
 							<Pic name={img} height={ih} />
 						</div>
 					);
 				})}
 			</div>
 			{label ? (
-				<div style={{position: 'absolute', left: pad, right: pad, bottom: 190, textAlign: 'center'}}>
+				<div style={{position: 'absolute', left: pad, right: pad, bottom: pad + 40, textAlign: 'center'}}>
 					<Plate size={v ? 52 : 60}>{label}</Plate>
 				</div>
 			) : null}
@@ -139,11 +141,14 @@ export const IconGrid: React.FC<{img: string; total: number; hi: number; cols?: 
 };
 
 /* ---------- Steps: stairs rising to the right, each with its number and a word; optional picture beside ---------- */
-export const Steps: React.FC<{steps: string[]; title?: string; color?: string; img?: string; wide?: number}> = ({steps, title, color = 'green', img, wide = 0.62}) => {
+export const Steps: React.FC<{steps: string[]; title?: string; color?: string; img?: string}> = ({steps, title, color = 'green', img}) => {
 	const f = useCurrentFrame();
 	const {W, H, pad, v} = useLayout();
 	const c = accent(color);
-	const areaW = img ? W * wide - pad : W - 2 * pad;
+	const imgH = H * 0.62;
+	const imgW = img ? imgH * (imgInfo(img)?.ar ?? 0.67) : 0;
+	// the stairs take whatever is left of the width, with an 80 px gap before the picture
+	const areaW = W - 2 * pad - (img ? imgW + 80 : 0);
 	const sw = areaW / steps.length;
 	return (
 		<AbsoluteFill style={{background: '#000'}}>
@@ -163,8 +168,8 @@ export const Steps: React.FC<{steps: string[]; title?: string; color?: string; i
 				);
 			})}
 			{img ? (
-				<div style={{position: 'absolute', right: pad, bottom: 190, opacity: interpolate(f, [4, 16], [0, 1], clampX)}}>
-					<Pic name={img} height={H * 0.62} />
+				<div style={{position: 'absolute', left: W - pad - imgW, bottom: 190, opacity: interpolate(f, [4, 16], [0, 1], clampX)}}>
+					<Pic name={img} height={imgH} />
 				</div>
 			) : null}
 		</AbsoluteFill>

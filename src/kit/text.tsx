@@ -53,10 +53,10 @@ export const Counter: React.FC<{from: number; to: number; at?: number; dur?: num
 	if (f < at) return null;
 	const val = interpolate(f, [at, at + dur], [from, to], {...clampX, easing: Easing.out(Easing.cubic)});
 	const lock = f - at - dur;
-	const pop = lock >= 0 && lock < 12 ? 1 + 0.2 * Math.exp(-lock / 4) : 1;
+	const pop = lock >= 0 && lock < 12 ? 1 + 0.1 * Math.exp(-lock / 4) : 1;
 	const box: React.CSSProperties =
-		pos === 'right' ? {right: pad, top: '50%', transform: `translateY(-50%) scale(${pop})`} :
-		pos === 'left' ? {left: pad, top: '50%', transform: `translateY(-50%) scale(${pop})`} :
+		pos === 'right' ? {right: pad + 40, top: '50%', transform: `translateY(-50%) scale(${pop})`} :
+		pos === 'left' ? {left: pad + 40, top: '50%', transform: `translateY(-50%) scale(${pop})`} :
 		pos === 'top' ? {left: 0, right: 0, top: pad, textAlign: 'center', transform: `scale(${pop})`} :
 		{left: 0, right: 0, top: '50%', textAlign: 'center', transform: `translateY(-50%) scale(${pop})`};
 	return (
@@ -79,7 +79,7 @@ export const SourceCaption: React.FC<{text: string; at?: number}> = ({text, at =
 	return (
 		<AbsoluteFill style={{pointerEvents: 'none'}}>
 			<div style={{position: 'absolute', left: pad, right: pad, bottom: 64, textAlign: 'center', opacity: o}}>
-				<Plate size={36} style={{fontWeight: 600, color: COL.dim}}>{text}</Plate>
+				<Plate size={48} style={{fontWeight: 600, color: COL.dim, padding: '10px 32px'}}>{text}</Plate>
 			</div>
 		</AbsoluteFill>
 	);
@@ -87,7 +87,7 @@ export const SourceCaption: React.FC<{text: string; at?: number}> = ({text, at =
 
 /* dot + ring on a detail of the picture, a line draws out to a label pill.
    from / to are screen points as fractions 0..1; the pill is kept 60 px from the edges. */
-export const Callout: React.FC<{from: [number, number]; to: [number, number]; text: string; at?: number; color?: string; size?: number}> = ({from, to, text, at = 0, color = 'orange', size = 46}) => {
+export const Callout: React.FC<{from: [number, number]; to: [number, number]; text: string; at?: number; color?: string; size?: number}> = ({from, to, text, at = 0, color = 'orange', size = 61}) => {
 	const f = useCurrentFrame();
 	const {W, H, pad} = useLayout();
 	const c = accent(color);

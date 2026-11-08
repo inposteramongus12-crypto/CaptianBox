@@ -2,116 +2,254 @@
  "hero/BOXER_IQ_Master_Character_Sheet": {
   "file": "hero/BOXER_IQ_Master_Character_Sheet.png",
   "w": 2560,
-  "h": 1440
+  "h": 1440,
+  "box": [
+   0.0996,
+   0.1694,
+   0.9008,
+   0.8472
+  ]
  },
  "hero/arms_crossed": {
   "file": "hero/arms_crossed.jpg",
   "w": 1024,
-  "h": 1024
+  "h": 1024,
+  "box": [
+   0.2373,
+   0.0176,
+   0.7656,
+   1
+  ]
  },
  "hero/back": {
   "file": "hero/back.jpg",
   "w": 896,
-  "h": 1200
+  "h": 1200,
+  "box": [
+   0.2355,
+   0.045,
+   0.7667,
+   0.9758
+  ]
  },
  "hero/facepalm": {
   "file": "hero/facepalm.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.2075,
+   0.0293,
+   0.8042,
+   0.9921
+  ]
  },
  "hero/guard_front": {
   "file": "hero/guard_front.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.1144,
+   0.0214,
+   0.9316,
+   0.985
+  ]
  },
  "hero/guard_stance_3q": {
   "file": "hero/guard_stance_3q.jpg",
   "w": 1792,
-  "h": 2400
+  "h": 2400,
+  "box": [
+   0.1295,
+   0.0567,
+   0.8934,
+   0.9775
+  ]
  },
  "hero/hand_on_head": {
   "file": "hero/hand_on_head.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.204,
+   0.0301,
+   0.8054,
+   0.985
+  ]
  },
  "hero/hands_up_claws": {
   "file": "hero/hands_up_claws.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.0566,
+   0.019,
+   0.9458,
+   0.9866
+  ]
  },
  "hero/helmet_closeup": {
   "file": "hero/helmet_closeup.jpg",
   "w": 1024,
-  "h": 1024
+  "h": 1024,
+  "box": [
+   0,
+   0.0332,
+   1,
+   1
+  ]
  },
  "hero/helmet_closeup_calm": {
   "file": "hero/helmet_closeup_calm.jpg",
   "w": 1024,
-  "h": 1024
+  "h": 1024,
+  "box": [
+   0,
+   0.0322,
+   1,
+   1
+  ]
  },
  "hero/point_right": {
   "file": "hero/point_right.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.2052,
+   0.0435,
+   0.9717,
+   0.9794
+  ]
  },
  "hero/present_hand_belly": {
   "file": "hero/present_hand_belly.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.2064,
+   0.0229,
+   0.9575,
+   0.985
+  ]
  },
  "hero/present_hand_right": {
   "file": "hero/present_hand_right.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.2193,
+   0.019,
+   0.9741,
+   0.9842
+  ]
  },
  "hero/punch_cross": {
   "file": "hero/punch_cross.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.1144,
+   0.0214,
+   0.9505,
+   0.985
+  ]
  },
  "hero/punch_jab": {
   "file": "hero/punch_jab.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.1144,
+   0.0206,
+   0.9835,
+   0.9842
+  ]
  },
  "hero/shrug": {
   "file": "hero/shrug.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.0106,
+   0.0356,
+   0.9953,
+   0.9897
+  ]
  },
  "hero/side": {
   "file": "hero/side.jpg",
   "w": 896,
-  "h": 1200
+  "h": 1200,
+  "box": [
+   0.3717,
+   0.0475,
+   0.6328,
+   0.9783
+  ]
  },
  "hero/side_2": {
   "file": "hero/side_2.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.3667,
+   0.0451,
+   0.658,
+   0.9802
+  ]
  },
  "hero/stand_front": {
   "file": "hero/stand_front.jpg",
   "w": 1792,
-  "h": 2400
+  "h": 2400,
+  "box": [
+   0.2366,
+   0.0462,
+   0.7656,
+   0.9779
+  ]
  },
  "hero/stand_front_2": {
   "file": "hero/stand_front_2.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.2052,
+   0.0356,
+   0.8113,
+   0.9897
+  ]
  },
  "hero/thinking": {
   "file": "hero/thinking.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.2099,
+   0.0427,
+   0.7936,
+   0.981
+  ]
  },
  "hero/thumbs_up": {
   "file": "hero/thumbs_up.jpg",
   "w": 848,
-  "h": 1264
+  "h": 1264,
+  "box": [
+   0.2028,
+   0.0245,
+   0.8844,
+   0.9826
+  ]
  },
  "hero/turnaround_sheet_jpg": {
   "file": "hero/turnaround_sheet_jpg.jpg",
   "w": 1376,
-  "h": 768
+  "h": 768,
+  "box": [
+   0.0669,
+   0.0326,
+   0.9346,
+   0.9922
+  ]
  }
 }
