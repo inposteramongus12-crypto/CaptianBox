@@ -186,3 +186,8 @@ ImageShot (push / pull / pan_left / pan_right), BigText (accent red/green/orange
 ## Этап 9 (ролик): озвучка и timeline
 - ElevenLabs (ключ 5, 7 624 знака): N = George, HERO = Liam (`src/story/voices.json` из шаблона), `public/vo/*.mp3` 112 файлов, облачка 018b и 108b не озвучивались. `eleven-voice.mjs` теперь видит ключи 4 и 5.
 - `src/story/timeline.json` по реальным клипам: 538,2 с речи; Long с паузами облачек 9:03 (было 9:18 по оценке). check-plans, npm run check чисто.
+
+## Этап 10 (ролик): пробный рендер Long на Actions
+- Запуск: `render.yml`, composition=Long, range=`lines:001-112`, chunk=150 (режима «черновик» в workflow нет, обычное качество crf 18). Run: https://github.com/inposteramongus12-crypto/CaptianBox/actions/runs/42504898799 (success, ~10 мин, 108 кусков). Артефакт `video-Long-lines-001-112` (zip 96,9 МБ, хранится до 2026-11-22).
+- Файл: 1920×1080, 30 fps, h264 + aac 48 кГц стерео, 538,2 с (8:58), 96,9 МБ. Звук есть: громкость −16,0 LUFS, пик −1,4 dBFS, тишина только в последних 2 с.
+- Замечание: ожидалось 9:03 (543 с, композиция Long = 16 290 кадров). Workflow режет диапазон по `timeline.json` без пауз под немые облачка 018b и 108b (`withPauses` в `timing.ts`), поэтому отрендерены кадры 0–16145, а не 0–16289: теряются последние 4,8 с, а голос после реплик 018 и 108 звучит раньше картинки на 2,4 и 4,8 с. Ничего не чинилось.
