@@ -7,7 +7,7 @@
 ## Префиксы
 - **hero_\***: `the same white faceless boxer with a red headguard, black shorts with red trim, red boots, wrapped hands, same style as the reference, black background`
 - **kachok_\***: `a white faceless bodybuilder character in the same style as the reference boxer, 100 kg, very muscular and bulky, much wider than the boxer, black shorts, black background`
-- В ринге у качка шлем и перчатки синие (чтобы отличать от красного героя); они добавлены в описание шести поз: guard_clumsy, arm_punch, wide_swing, gasping_low_guard, hands_knees, hit_reeling. В четырёх позах (stand_front, flex_biceps, barbell, handshake) явно: `bare smooth white faceless head, NO headguard`. В handshake перчатки остались красными (по плану, вы их не просили менять).
+- В ринге у качка шлем и перчатки синие (чтобы отличать от красного героя); они добавлены в описание семи поз: handshake, guard_clumsy, arm_punch, wide_swing, gasping_low_guard, hands_knees, hit_reeling. В трёх позах (stand_front, flex_biceps, barbell) явно: `bare smooth white faceless head, NO headguard`.
 
 ## Таблица (17 поз, к генерации 15)
 | Имя | Английский промт | Описание | Кадров в сценарии |
@@ -112,8 +112,8 @@
 
 ### kachok_handshake.jpg — Жмёт руку (финал)
 - Кадры: 108 108b
-- Описание позы: `bare smooth white faceless head, NO headguard, wearing red boxing gloves, extending a glove for a friendly glove touch, front three-quarter view, full body`
-- Промт: `a white faceless bodybuilder character in the same style as the reference boxer, 100 kg, very muscular and bulky, much wider than the boxer, black shorts, black background, bare smooth white faceless head, NO headguard, wearing red boxing gloves, extending a glove for a friendly glove touch, front three-quarter view, full body`
+- Описание позы: `wearing a blue headguard and blue boxing gloves, after the fight, extending his right glove for a friendly handshake, front three-quarter view, full body`
+- Промт: `a white faceless bodybuilder character in the same style as the reference boxer, 100 kg, very muscular and bulky, much wider than the boxer, black shorts, black background, wearing a blue headguard and blue boxing gloves, after the fight, extending his right glove for a friendly handshake, front three-quarter view, full body`
 
 ## Порядок генерации (по числу кадров)
 Сначала самые частые (одна удачная картинка закрывает больше кадров):

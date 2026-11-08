@@ -164,3 +164,4 @@ ImageShot (push / pull / pan_left / pan_right), BigText (accent red/green/orange
 - Позы героя и качка для ролика: `missing-poses-script.md` (17 полных англ. промтов, префиксы, кадры). Картинки не генерировались.
 
 - missing-poses-script.md: префикс качка без запрета шлема, ринговые шлем и перчатки синие, явная голая голова в 4 позах, on_scale убраны, порядок генерации.
+- missing-poses-script.md: kachok_handshake в синем шлеме и синих перчатках, правая перчатка; проверка трёх «голых» поз по кадрам.
