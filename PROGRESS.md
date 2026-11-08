@@ -92,3 +92,32 @@
 - SourceCaption — ЕСТЬ: `Cite` (подпись источника, мелкий текст в углу), годится для подписи исследования.
 - SlideIn — НЕТ как отдельный компонент; въезд с края встроен в `Split`, `Accent` и `Pop`.
 Нужно с нуля: ImageShot, BarChart, Scale, IconGrid, Steps, SlideIn. Нужно переписать под картинки/без CAST: Split, BigText.
+
+## Этап 4: плеер кадров и компоненты (тест на 10 репликах)
+Озвучка, ElevenLabs и рендер на Actions не запускались.
+
+**Ядро** (`src/Long.tsx`, `src/kit/timing.ts`, `data.ts`, `shot.tsx`):
+- `src/story/lines.json` — формат шаблона (`id`, `part`, `sp`, `t`), не менялся.
+- `src/story/shots.json` — по реплике (префикс id): `type` (image | icons | split | bar | scale | steps | text), `img`, `pos`, `effect`, `focus`, `data`, оверлеи `text`, `slide`, `callout`, `counter`, `source`. Время `at` в секундах от начала кадра.
+- Длительность: если есть `src/story/timeline.json` и в нём есть все реплики — берётся он (формат `prep-timeline` не менялся); иначе оценка ~15 знаков/с с теми же паузами. Проверено: с поддельным timeline длина роли 43 с → 72 с, после удаления вернулась оценка.
+- `src/kit/plan-report.ts` переписан под плеер, поэтому `tools/check-plans.mjs` работает (10 планов, самый длинный 7,2 с).
+- `tools/scan-images.mjs` → `src/story/images.json` (список картинок и размеры). Имя картинки, которого нет в списке, рисуется серой заглушкой с названием позы.
+
+**Компоненты** (`src/kit/*.tsx`, без CAST и стикменов, плашки navy `#11142c`, отступ ≥ 60 px, шрифт плашек ≥ 44 px при 1080p):
+ImageShot (push / pull / pan_left / pan_right), BigText (accent red/green/orange, разметка `*слово*`), BarChart, Scale, IconGrid, Steps, Split, SlideIn, Callout, Counter, SourceCaption.
+Логика Callout, Counter (из NeonCounter), Split, Caption (BigText), Cite (SourceCaption), Pop/spring перенесена из `/tmp/template/src/kit` и очищена от персонажей; BarChart, Scale, IconGrid, Steps, ImageShot и SlideIn написаны заново (в шаблоне их нет).
+
+**Тестовый сюжет:** выдуманное исследование про сборку шкафа (10 реплик, ~43 с), везде подпись «Тестовые данные… выдумано»; без советов по здоровью. Недостающая поза `walk_side` показана серой заглушкой (кадр 9).
+Раскадровка каждые 2,5 с: `storyboard/test10_storyboard_Long.jpg` (17 кадров).
+
+**Проверка краёв:** `tools/check-edges.mjs` — 0 нарушений (кадры каждые 30 и 60). В среде нет `scipy`, поэтому оригинальный `edge-scan.py` падает; добавлен запасной `tools/edge-scan-lite.py` (numpy + Pillow, то же правило 60 px, но проще поиск плашек), `check-edges.mjs` переключается на него сам. Проверено на подложенной плашке у края: обнаруживает.
+
+**Не сделано / не работает:**
+- Вертикальный Short: `Short.tsx` остаётся заглушкой. BarChart, Scale, IconGrid, BigText, Counter, Callout, SourceCaption подстраиваются под 9:16 через `useLayout`, но Split и Steps рассчитаны только на 16:9.
+- `eleven-voice.mjs` и `voice-free.mjs`: нужен `src/story/voices.json` (не копировался) и ключи; не запускались.
+- `prep-timeline.mjs`: нужны озвученные `public/vo/<id>.mp3`; пока их нет, работает оценка.
+- `make-sound.mjs`: нужен `src/story/sound.json` (не копировался), `public/sfx` пуст; в `render.yml` подложка пустая.
+- `render.yml`, `plan-chunks.mjs`, `render-part.mjs`: ждут `src/story/timeline.json` (без озвучки его нет), в Actions не запускались.
+- `make-short-timeline.mjs`, `check-video.mjs`: нужны `short-pick.json` и готовое видео; не проверялись.
+- `build-lines.mjs` читает `script.md` и ждёт поля `action`; формат lines.json совместим, но `script.md` нет.
+- Сам `remotion studio` в браузере не открывался; проверка через `compositions`, `still` и раскадровку.

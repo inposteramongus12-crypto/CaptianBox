@@ -22,4 +22,8 @@ const COMP = val('--comp', 'Long');
 const comp = await selectComposition({serveUrl, id: COMP, chromiumOptions: {gl: 'angle'}});
 for (const f of frames) await renderStill({composition: comp, serveUrl, output: path.join(dir, `f${String(f).padStart(6, '0')}.png`), frame: f, chromiumOptions: {gl: 'angle'}, scale: 0.5});
 const r = spawnSync('python3', ['-I', path.join(ROOT, 'tools', 'edge-scan.py'), dir], {encoding: 'utf8'});
-process.stdout.write(r.stdout + r.stderr);
+if (/ModuleNotFoundError/.test(r.stderr)) {
+	// scipy is not installed: numpy-only scanner (same 60 px rule, simpler blob test)
+	const r2 = spawnSync('python3', ['-I', path.join(ROOT, 'tools', 'edge-scan-lite.py'), dir], {encoding: 'utf8'});
+	process.stdout.write('(scipy missing: using tools/edge-scan-lite.py)\n' + r2.stdout + r2.stderr);
+} else process.stdout.write(r.stdout + r.stderr);
