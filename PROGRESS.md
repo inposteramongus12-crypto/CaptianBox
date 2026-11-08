@@ -53,3 +53,42 @@
 - bed_lying_back.jpg — Лежит на кровати, на спине
 - bed_lying_side.jpg — Лежит на кровати, на боку
 - bed_sitting_up.jpg — Сидит на кровати
+
+## Этап 3: движок (из /tmp/template)
+Разбор файлов шаблона (универсальное / конкретный ролик):
+- `src/engine/camera.tsx` — универсальный: камера с параллаксом по слоям, зерно, виньетка, пыль, леттербокс.
+- `src/engine/color.ts` — универсальный: mix/lighten/darken цветов.
+- `src/engine/Stickman.tsx` — риг стикмена (универсальный механизм, но герой у нас картинка) — не копировал.
+- `src/engine/props.tsx` — стол, стул, бутылка: реквизит сцен — не копировал.
+- `src/kit/core.tsx` — таймлайн реплик, счётчик, актёры, углы камеры; завязан на `story/timeline.json`, `config`, `cast` — не копировал.
+- `src/kit/coverage.ts` — авторазбивка плана на ракурсы; завязана на `story/shots` — не копировал.
+- `src/kit/graphics.tsx` — моушн-графика (Callout, Split, Caption, NeonCounter, IdCard); часть на CAST/Stickman — не копировал.
+- `src/kit/kit.tsx` — Stage/camOn/usePush/Pop (универсальные) вместе с толпой и Sleeper (сцены); завязан на story — не копировал.
+- `src/kit/ui.tsx` — Accent, Cite, Board, Bubble (универсальные) вместе с PhoneChat/RuleCard/AgeBadge; завязан на core — не копировал.
+- `src/kit/sets.tsx` — локации (спальня, кухня, школа и т.д.): сцены ролика — не копировал.
+- `src/kit/plan-report.ts` — отчёт для `check-plans`, завязан на `story/*` — не копировал.
+- `src/reference/*` — три ручные референс-сцены (Classroom, Highway, PauseTime): конкретные сцены — не копировал.
+- `src/index.ts` — универсальный: registerRoot.
+- `public/fonts` — Rubik и Caveat (OFL): универсальные.
+- `src/Long.tsx`, `src/Short.tsx` — монтаж/склейка с whip-pan и кропом 9:16: логика универсальная, но жёстко завязана на `story/*` и озвучку — взял только заглушки.
+- `src/Sheet.tsx` — универсальная раскадровка (contact sheet).
+
+Скопировано: `src/index.ts`, `src/engine/camera.tsx`, `src/engine/color.ts`, `public/fonts/`, `src/Sheet.tsx` (import FONT переведён на новый `src/kit/font.ts` с константами FONT/HAND).
+Созданы: `src/Long.tsx`, `src/Short.tsx` — заглушки (чёрный кадр с текстом «заглушка», 5 с); `src/kit/font.ts`.
+Правка: из `src/Root.tsx` убрана композиция Reference (папка reference не копировалась).
+`npm run check` — без ошибок; `remotion compositions` видит Long, Short, Sheet; пробный still Long отрисован.
+
+## Компоненты монтажа (только список, ничего не реализовано)
+Статус в шаблоне (там они в `src/kit`, в проект пока не перенесены):
+- ImageShot (герой из `public/hero`, медленный наезд) — НЕТ. Есть только наезд камеры для SVG-мира (`usePush`, `camOn`); растровых картинок (`<Img>`) в шаблоне нет.
+- BigText с цветным акцентом — ЕСТЬ частично: `Caption` (крупные строки, последняя цветная, spring-вход, обводка) и `Accent` (плашка снизу).
+- BarChart — НЕТ.
+- Scale (весы) — НЕТ.
+- IconGrid (ряды фигурок) — НЕТ как компонент; есть `CrowdRow` (ряд стикменов) — другая сущность.
+- Steps (ступени) — НЕТ как компонент; в `places3.tsx` есть сцена-ступени «приятель → друг → близкий», привязана к ролику.
+- Counter — ЕСТЬ: `NeonCounter` и бейдж `AgeBadge` с прокруткой числа; общий счётчик по реплика-ключам в `core`.
+- Split — ЕСТЬ: `Split` (две панели, горизонтальный и вертикальный режимы), но внутри рисует стикмена; нужен вариант с картинкой.
+- Callout — ЕСТЬ: `Callout` (точка, кольцо, линия и плашка) в мировых и экранных координатах.
+- SourceCaption — ЕСТЬ: `Cite` (подпись источника, мелкий текст в углу), годится для подписи исследования.
+- SlideIn — НЕТ как отдельный компонент; въезд с края встроен в `Split`, `Accent` и `Pop`.
+Нужно с нуля: ImageShot, BarChart, Scale, IconGrid, Steps, SlideIn. Нужно переписать под картинки/без CAST: Split, BigText.
