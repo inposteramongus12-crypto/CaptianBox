@@ -5,9 +5,9 @@ import {COL, FONT, Plate, accent, clampX, ease, useLayout} from './theme';
 /* "Разница *15 минут*": text between * is drawn in the accent colour; without markup the last line is the accent */
 const parts = (s: string, ac: string, whole: boolean) => s.split('*').map((p, i) => <span key={i} style={{color: whole || i % 2 === 1 ? ac : '#fff'}}>{p}</span>);
 
-export type BigTextProps = {lines: string[]; accent?: string; pos?: 'top' | 'center' | 'bottom' | 'left' | 'right'; size?: number; at?: number};
+export type BigTextProps = {lines: string[]; accent?: string; pos?: 'top' | 'center' | 'bottom' | 'left' | 'right'; size?: number; at?: number; bottom?: number}; // bottom: distance of a 'bottom' plate from the frame edge (default 190)
 /* big title words: one navy plate per line, springs in, red / green / orange accent */
-export const BigText: React.FC<BigTextProps> = ({lines, accent: a = 'orange', pos = 'center', size, at = 0}) => {
+export const BigText: React.FC<BigTextProps> = ({lines, accent: a = 'orange', pos = 'center', size, at = 0, bottom}) => {
 	const f = useCurrentFrame();
 	const {fps} = useVideoConfig();
 	const {W, H, pad, big} = useLayout();
@@ -16,7 +16,7 @@ export const BigText: React.FC<BigTextProps> = ({lines, accent: a = 'orange', po
 	const marked = lines.some((l) => l.includes('*'));
 	const box: React.CSSProperties =
 		pos === 'top' ? {top: pad, left: pad, right: pad, textAlign: 'center'} :
-		pos === 'bottom' ? {bottom: 190, left: pad, right: pad, textAlign: 'center'} :
+		pos === 'bottom' ? {bottom: bottom ?? 190, left: pad, right: pad, textAlign: 'center'} :
 		pos === 'left' ? {left: pad, width: W / 2 - pad * 1.5, top: '50%', transform: 'translateY(-50%)', textAlign: 'left'} :
 		pos === 'right' ? {right: pad, width: W / 2 - pad * 1.5, top: '50%', transform: 'translateY(-50%)', textAlign: 'right'} :
 		{left: pad, right: pad, top: '50%', transform: 'translateY(-50%)', textAlign: 'center'};

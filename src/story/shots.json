@@ -1230,7 +1230,8 @@
    ],
    "accent": "red",
    "pos": "bottom",
-   "at": 0.3
+   "at": 0.3,
+   "bottom": 110
   }
  },
  {
@@ -2120,7 +2121,8 @@
    ],
    "accent": "red",
    "pos": "bottom",
-   "at": 0.3
+   "at": 0.3,
+   "bottom": 110
   }
  },
  {
@@ -2145,7 +2147,8 @@
    ],
    "accent": "orange",
    "pos": "bottom",
-   "at": 0.3
+   "at": 0.3,
+   "bottom": 110
   }
  }
 ]

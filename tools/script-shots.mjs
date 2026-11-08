@@ -118,7 +118,7 @@ for (let i = 0; i < src.length; i++) {
 		const side = shot.type === 'image' && !co && (chars >= 14 || lines.length > 1);
 		// on a split the plate goes under the pictures; elsewhere at the top
 		const pos = shot.type === 'image' ? (side ? 'left' : 'bottom') : shot.type === 'text' ? 'center' : shot.type === 'split' ? 'bottom' : 'top';
-		shot.text = {lines: side ? lines.map((l) => l.replace(/ (\S+)$/, '\u00a0$1')) : lines, accent: colorOf(bt[2], 'orange'), pos, at: 0.3, ...(side ? {size: lines.length >= 3 ? 72 : 76} : {})};
+		shot.text = {lines: side ? lines.map((l) => l.replace(/ (\S+)$/, '\u00a0$1')) : lines, accent: colorOf(bt[2], 'orange'), pos, at: 0.3, ...(shot.type === 'split' ? {bottom: 110} : {}), ...(side ? {size: lines.length >= 3 ? 72 : 76} : {})};
 		if (shot.type === 'image') shot.pos = side ? 'right' : 'center';
 	}
 	const cn = t.match(/Counter (\d+)→(\d+) «([^»]*)»/);
