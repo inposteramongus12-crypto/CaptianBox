@@ -142,7 +142,8 @@
    ],
    "text": "сначала — он",
    "at": 0.4,
-   "color": "red"
+   "color": "red",
+   "anchor": "fist_front"
   }
  },
  {
@@ -374,7 +375,8 @@
    ],
    "text": "ноги стоят",
    "at": 0.4,
-   "color": "red"
+   "color": "red",
+   "anchor": "foot_front"
   },
   "badges": [
    "схема, не измерения"
@@ -417,7 +419,8 @@
    ],
    "text": "стопа → бедро → плечо",
    "at": 0.4,
-   "color": "orange"
+   "color": "orange",
+   "anchor": "hip"
   },
   "badges": [
    "схема, не измерения"
@@ -479,7 +482,8 @@
    ],
    "text": "начало здесь",
    "at": 0.4,
-   "color": "red"
+   "color": "red",
+   "anchor": "shoulder"
   },
   "badges": [
    "схема, не измерения"
@@ -586,7 +590,8 @@
    ],
    "text": "запомни",
    "at": 0.4,
-   "color": "orange"
+   "color": "orange",
+   "anchor": "foot_front"
   }
  },
  {
@@ -794,7 +799,8 @@
    ],
    "text": "на сантиметр",
    "at": 0.4,
-   "color": "orange"
+   "color": "orange",
+   "anchor": "belly"
   }
  },
  {
@@ -1155,7 +1161,8 @@
    ],
    "text": "устали",
    "at": 0.4,
-   "color": "orange"
+   "color": "orange",
+   "anchor": "hip"
   }
  },
  {
@@ -1188,7 +1195,8 @@
    ],
    "text": "разворот",
    "at": 0.4,
-   "color": "red"
+   "color": "red",
+   "anchor": "belly"
   }
  },
  {
@@ -1544,7 +1552,8 @@
    ],
    "text": "ноги стоят",
    "at": 0.4,
-   "color": "red"
+   "color": "red",
+   "anchor": "foot_front"
   },
   "badges": [
    "схема, не измерения"
@@ -1587,7 +1596,8 @@
    ],
    "text": "мимо",
    "at": 0.4,
-   "color": "orange"
+   "color": "orange",
+   "anchor": "head"
   },
   "badges": [
    "схема, не измерения"
@@ -1635,7 +1645,8 @@
    ],
    "text": "стопа → бедро → плечо",
    "at": 0.4,
-   "color": "green"
+   "color": "green",
+   "anchor": "hip"
   },
   "badges": [
    "схема, не измерения"

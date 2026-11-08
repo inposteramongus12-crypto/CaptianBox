@@ -40,6 +40,8 @@ const SPLITS = {
 	'подпись «рост = · возраст =»': {center: 'рост = · возраст ='},
 	'плашки «в сумме: больше» и «с сантиметра: меньше»': {a: {label: 'в сумме: больше', foot: 'с сантиметра: меньше'}, b: {label: ''}},
 };
+/* which body point (public/hero/anchors.json) a callout points at, by its text */
+const ANCHOR = {'ноги стоят': 'foot_front', 'запомни': 'foot_front', 'начало здесь': 'shoulder', 'стопа → бедро → плечо': 'hip', 'на сантиметр': 'belly', 'устали': 'hip', 'разворот': 'belly', 'мимо': 'head', 'сначала — он': 'fist_front'};
 const SPEAKER = {КАЧОК: 'качок', ЗРИТЕЛИ: 'зрители'};
 
 const shots = [];
@@ -126,7 +128,7 @@ for (let i = 0; i < src.length; i++) {
 	if (ov.counter) shot.counter = ov.counter;
 	if (co && shot.type === 'image') {
 		const low = /ступн|бёдр/.test(t);
-		shot.callout = {from: [0.5, low ? 0.85 : 0.45], to: [0.72, low ? 0.72 : 0.25], text: co[1], at: 0.4, color: colorOf(t.slice(t.indexOf('Callout')), 'orange')};
+		shot.callout = {from: [0.5, low ? 0.85 : 0.45], to: [0.72, low ? 0.72 : 0.25], text: co[1], at: 0.4, color: colorOf(t.slice(t.indexOf('Callout')), 'orange'), ...(ANCHOR[co[1]] ? {anchor: ANCHOR[co[1]]} : {})};
 	}
 	const sl = t.match(/SlideIn[^«]*«([^»]*)»/);
 	// a slide-in plate over a grid of figures would cover them: it comes from the top

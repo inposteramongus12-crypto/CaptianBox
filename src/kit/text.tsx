@@ -1,6 +1,8 @@
 import React from 'react';
 import {AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {COL, FONT, Plate, accent, clampX, ease, useLayout} from './theme';
+import {Effect, geomPoint, imageGeom} from './media';
+import ANCHORS from '../../public/hero/anchors.json';
 
 /* "Разница *15 минут*": text between * is drawn in the accent colour; without markup the last line is the accent */
 const parts = (s: string, ac: string, whole: boolean) => s.split('*').map((p, i) => <span key={i} style={{color: whole || i % 2 === 1 ? ac : '#fff'}}>{p}</span>);
@@ -135,10 +137,50 @@ export const SourceCaption: React.FC<{text: string; at?: number}> = ({text, at =
 	);
 };
 
+/* Callout stuck to the hero's body: `anchor` names the picture, the body point (head, fist_front, hip, foot_front, foot_back, belly,
+   shoulder; public/hero/anchors.json, found from the figure mask) and how the picture moves. The dot follows the point while the picture
+   zooms / pans. The plate goes where it covers neither the figure (silhouette grid, checked at the start, middle and end of the move)
+   nor `avoid` rectangles (badges, other plates), as near as possible to ~300 px from the point. */
+export type CalloutAnchor = {img: string; point: string; effect?: Effect; pos?: 'left' | 'center' | 'right'; focus?: [number, number]; zoom?: number};
+type AnchorData = Record<string, number[] | string[]>;
+const place = (anchor: CalloutAnchor, W: number, H: number, pw: number, ph: number, avoid: number[][]) => {
+	const A = (ANCHORS as unknown as Record<string, AnchorData>)[anchor.img];
+	const g = imageGeom(anchor.img, anchor.effect ?? 'push', anchor.pos ?? 'center', anchor.focus ?? [0.5, 0.35], anchor.zoom ?? 0.25, W, H);
+	const pt = (A?.[anchor.point] as unknown as [number, number]) ?? [0.5, 0.5];
+	const mask = ((A?.mask as unknown as string[]) ?? []);
+	const R = mask.length;
+	const C = mask[0]?.length ?? 1;
+	const cells: [number, number][] = [];
+	mask.forEach((row, j) => [...row].forEach((c, i) => c === '1' && cells.push([i, j])));
+	const ks = [0, 0.5, 1];
+	const rects = ks.map((k) => cells.map(([i, j]) => [...geomPoint(g, i / C, j / R, k), ...geomPoint(g, (i + 1) / C, (j + 1) / R, k)] as number[]));
+	const hit = (x0: number, y0: number, x1: number, y1: number, r: number[], m: number) => x0 < r[2] + m && x1 > r[0] - m && y0 < r[3] + m && y1 > r[1] - m;
+	const a0 = geomPoint(g, pt[0], pt[1], 0.5);
+	let best: [number, number] | null = null;
+	let bestCost = Infinity;
+	for (let cx = SAFE_X + pw / 2; cx <= W - SAFE_X - pw / 2; cx += 30) {
+		for (let cy = SAFE_X + ph / 2; cy <= H - SAFE_X - ph / 2; cy += 30) {
+			const x0 = cx - pw / 2, x1 = cx + pw / 2, y0 = cy - ph / 2, y1 = cy + ph / 2;
+			if (avoid.some((r) => hit(x0, y0, x1, y1, r, 10))) continue;
+			if (rects.some((rs) => rs.some((r) => hit(x0, y0, x1, y1, r, 28)))) continue;
+			let cost = Math.abs(Math.hypot(cx - a0[0], cy - a0[1]) - 300) + (cx < a0[0] ? 40 : 0);
+			for (let t = 3; t <= 12; t++) { // the leader line should not run over the body
+				const lx = a0[0] + ((cx - a0[0]) * t) / 12, ly = a0[1] + ((cy - a0[1]) * t) / 12;
+				if (rects[1].some((r) => lx > r[0] && lx < r[2] && ly > r[1] && ly < r[3])) cost += 25;
+			}
+			if (cost < bestCost) { bestCost = cost; best = [cx, cy]; }
+		}
+	}
+	return {g, pt, to: best ?? ([Math.min(W - SAFE_X - pw / 2, Math.max(SAFE_X + pw / 2, a0[0] + 300)), Math.max(SAFE_X + ph / 2, a0[1] - 200)] as [number, number])};
+};
+const SAFE_X = 64;
+
 /* dot + ring on a detail of the picture, a line draws out to a label pill.
-   from / to are screen points as fractions 0..1; the pill is kept 60 px from the edges. */
-export const Callout: React.FC<{from: [number, number]; to: [number, number]; text: string; at?: number; color?: string; size?: number}> = ({from, to, text, at = 0, color = 'orange', size = 61}) => {
+   from / to are screen points as fractions 0..1; the pill is kept 60 px from the edges.
+   With `anchor` the dot sits on a body point of the hero and the pill is placed automatically (see place). */
+export const Callout: React.FC<{from: [number, number]; to: [number, number]; text: string; at?: number; color?: string; size?: number; anchor?: CalloutAnchor; avoid?: number[][]}> = ({from, to, text, at = 0, color = 'orange', size = 61, anchor, avoid = []}) => {
 	const f = useCurrentFrame();
+	const {durationInFrames} = useVideoConfig();
 	const {W, H, pad} = useLayout();
 	const c = accent(color);
 	const t = f - at;
@@ -146,10 +188,16 @@ export const Callout: React.FC<{from: [number, number]; to: [number, number]; te
 	const draw = interpolate(t, [0, 14], [0, 1], {...clampX, easing: ease});
 	const pw = text.length * size * 0.56 + 72;
 	const ph = size * 1.7;
-	const fx = from[0] * W;
-	const fy = from[1] * H;
-	const tx = Math.min(W - pad - pw / 2, Math.max(pad + pw / 2, to[0] * W));
-	const ty = Math.min(H - pad - ph / 2, Math.max(pad + ph / 2, to[1] * H));
+	let fx = from[0] * W;
+	let fy = from[1] * H;
+	let tx = Math.min(W - pad - pw / 2, Math.max(pad + pw / 2, to[0] * W));
+	let ty = Math.min(H - pad - ph / 2, Math.max(pad + ph / 2, to[1] * H));
+	if (anchor && (ANCHORS as Record<string, unknown>)[anchor.img]) {
+		const p = place(anchor, W, H, pw, ph, avoid);
+		const k = interpolate(f, [0, Math.max(1, durationInFrames - 1)], [0, 1], {...clampX, easing: ease});
+		[fx, fy] = geomPoint(p.g, p.pt[0], p.pt[1], k);
+		[tx, ty] = p.to;
+	}
 	const len = Math.hypot(tx - fx, ty - fy);
 	return (
 		<AbsoluteFill style={{pointerEvents: 'none'}}>

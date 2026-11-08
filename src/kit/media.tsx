@@ -45,6 +45,29 @@ const fit = (H: number, box: number[] | undefined, fy: number, z0: number, z1: n
 	return {h: H * 0.3, T: H * 0.35};
 };
 
+/* Where the hero picture sits on the frame, and where a point of the picture lands (Callout uses this to stick to the body). */
+export type ImageGeom = {z0: number; z1: number; dx0: number; dx1: number; h: number; T: number; w: number; left: number; focus: [number, number]};
+export const imageGeom = (name: string, effect: Effect, pos: 'left' | 'center' | 'right', focus: [number, number], zoom: number, W: number, H: number): ImageGeom => {
+	const i = imgInfo(name);
+	const e = (IMAGES as Record<string, {box?: number[]}>)[name];
+	let [z0, z1, dx0, dx1] = [1, 1, 0, 0];
+	if (effect === 'push') [z0, z1] = [1, 1 + zoom];
+	if (effect === 'pull') [z0, z1] = [1 + zoom, 1];
+	if (effect === 'pan_left') [z0, z1, dx0, dx1] = [1, 1 + zoom * 0.6, 50, -50];
+	if (effect === 'pan_right') [z0, z1, dx0, dx1] = [1, 1 + zoom * 0.6, -50, 50];
+	const {h, T} = fit(H, e?.box, focus[1], Math.min(z0, z1), Math.max(z0, z1));
+	const w = h * (i?.ar ?? 1);
+	return {z0, z1, dx0, dx1, h, T, w, left: W * X[pos] - w / 2, focus};
+};
+/* screen point of picture point (px, py in 0..1) at progress k (0..1) of the shot */
+export const geomPoint = (g: ImageGeom, px: number, py: number, k: number): [number, number] => {
+	const z = g.z0 + (g.z1 - g.z0) * k;
+	const dx = g.dx0 + (g.dx1 - g.dx0) * k;
+	const ox = g.left + g.focus[0] * g.w;
+	const oy = g.T + g.focus[1] * g.h;
+	return [ox + (g.left + px * g.w - ox) * z + dx, oy + (g.T + py * g.h - oy) * z];
+};
+
 /* hero picture on black with a slow push in / pull out / sideways drift. The scale changes by `zoom`
    (default 25 %) over the shot. focus = point of the picture (0..1) the zoom grows from. The picture is sized so that
    the hero never gets closer than 60 px to the top or bottom edge, even at the biggest zoom. */
@@ -53,20 +76,13 @@ export const ImageShot: React.FC<{name: string; effect?: Effect; pos?: 'left' | 
 	const {durationInFrames} = useVideoConfig();
 	const {W, H} = useLayout();
 	const k = interpolate(f, [0, Math.max(1, durationInFrames - 1)], [0, 1], {...clampX, easing: ease});
-	const i = imgInfo(name);
-	const e = (IMAGES as Record<string, {box?: number[]}>)[name];
-	let [z0, z1, dx0, dx1] = [1, 1, 0, 0];
-	if (effect === 'push') [z0, z1] = [1, 1 + zoom];
-	if (effect === 'pull') [z0, z1] = [1 + zoom, 1];
-	if (effect === 'pan_left') [z0, z1, dx0, dx1] = [1, 1 + zoom * 0.6, 50, -50];
-	if (effect === 'pan_right') [z0, z1, dx0, dx1] = [1, 1 + zoom * 0.6, -50, 50];
-	const z = z0 + (z1 - z0) * k;
-	const dx = dx0 + (dx1 - dx0) * k;
-	const {h, T} = fit(H, e?.box, focus[1], Math.min(z0, z1), Math.max(z0, z1));
-	const w = h * (i?.ar ?? 1);
+	const g = imageGeom(name, effect, pos, focus, zoom, W, H);
+	const z = g.z0 + (g.z1 - g.z0) * k;
+	const dx = g.dx0 + (g.dx1 - g.dx0) * k;
+	const {h, T, w} = g;
 	return (
 		<AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-			<div style={{position: 'absolute', left: W * X[pos] - w / 2, top: T, width: w, height: h, transformOrigin: `${focus[0] * 100}% ${focus[1] * 100}%`, transform: `translateX(${dx}px) scale(${z})`}}>
+			<div style={{position: 'absolute', left: g.left, top: T, width: w, height: h, transformOrigin: `${focus[0] * 100}% ${focus[1] * 100}%`, transform: `translateX(${dx}px) scale(${z})`}}>
 				<Pic name={name} height={h} />
 			</div>
 		</AbsoluteFill>

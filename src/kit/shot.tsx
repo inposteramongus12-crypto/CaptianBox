@@ -29,6 +29,20 @@ const topItems = (s: TimedShot, W: number): [number, number][] => {
 	return out;
 };
 
+/* rectangles a callout plate must keep off: badges, BigText, source caption, board */
+const calloutAvoid = (s: TimedShot, W: number, badgeRect: number[] | null): number[][] => {
+	const out: number[][] = [];
+	if (badgeRect) out.push(badgeRect);
+	const t = s.text;
+	if (t) {
+		const n = t.lines.length;
+		out.push(t.pos === 'bottom' ? [80, 1080 - (t.bottom ?? 190) - 170 * n, W - 80, 1080 - (t.bottom ?? 190)] : t.pos === 'left' ? [80, 200, 80 + 840, 880] : t.pos === 'top' ? [80, 80, W - 80, 260] : [80, 330, W - 80, 750]);
+	}
+	if (s.source) out.push([80, 1080 - 64 - 90, W - 80, 1080 - 64]);
+	if (s.board) out.push([W - 64 - 560, 64, W - 64, 150]);
+	return out;
+};
+
 const Later: React.FC<{img: string}> = ({img}) => {
 	const f = useCurrentFrame();
 	return (
@@ -56,10 +70,11 @@ const Later: React.FC<{img: string}> = ({img}) => {
    all `at` values are seconds from the start of the shot */
 export const Shot: React.FC<{shot: TimedShot}> = ({shot: s}) => {
 	const d = s.data ?? {};
-	const {width: W, durationInFrames} = useVideoConfig();
+	const {width: W, height: H_, durationInFrames} = useVideoConfig();
 	const badges: string[] = s.badges ?? [];
 	const rowW = badges.reduce((a, b) => a + pw(b, 44, 56) + 12, 0);
 	const low = topItems(s, W).some(([l, r]) => l < SAFE + 4 + rowW + 60 && r > SAFE + 4 - 60); // the row would meet a top title: go to the bottom
+	const badgeRect = badges.length ? (low ? [SAFE + 4, H_ - SAFE - 4 - (s.source ? 100 : 0) - 80, SAFE + 4 + rowW, H_ - SAFE - 4 - (s.source ? 100 : 0)] : [SAFE + 4, SAFE + 4, SAFE + 4 + rowW, SAFE + 4 + 80]) : null;
 	let base: React.ReactNode = <AbsoluteFill style={{background: '#000'}} />;
 	if (s.type === 'image') base = <ImageShot name={s.img} effect={s.effect} pos={s.pos} focus={s.focus} />;
 	if (s.type === 'icons') base = <IconGrid img={s.img} {...d} />;
@@ -76,7 +91,14 @@ export const Shot: React.FC<{shot: TimedShot}> = ({shot: s}) => {
 					<BigText {...s.slide.text} at={fr(s.slide.at) + 6} />
 				</SlideIn>
 			) : null}
-			{s.callout ? <Callout {...s.callout} at={fr(s.callout.at)} /> : null}
+			{s.callout ? (
+				<Callout
+					{...s.callout}
+					at={fr(s.callout.at)}
+					anchor={s.callout.anchor && s.img ? {img: s.img, point: s.callout.anchor, effect: s.effect, pos: s.pos, focus: s.focus} : undefined}
+					avoid={calloutAvoid(s, W, badgeRect)}
+				/>
+			) : null}
 			{s.counter ? <Counter {...s.counter} at={fr(s.counter.at)} dur={s.counter.dur ?? 30} /> : null}
 			{s.source ? <SourceCaption text={s.source} at={fr(s.sourceAt ?? 0.3)} /> : null}
 			{s.board ? <Board {...s.board} at={fr(s.board.at)} /> : null}
