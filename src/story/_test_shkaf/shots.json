@@ -1,0 +1,202 @@
+[
+ {
+  "line": "001",
+  "type": "image",
+  "img": "hero/stand_front",
+  "pos": "right",
+  "effect": "push",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "1000 человек",
+    "купили *шкаф*"
+   ],
+   "accent": "orange",
+   "pos": "left",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "002",
+  "type": "icons",
+  "img": "hero/stand_front",
+  "data": {
+   "total": 20,
+   "hi": 2,
+   "cols": 10,
+   "num": "100 из 1000",
+   "label": "сначала прочли инструкцию",
+   "color": "green"
+  }
+ },
+ {
+  "line": "003",
+  "type": "split",
+  "data": {
+   "a": {
+    "label": "Читали",
+    "num": "10%",
+    "img": "hero/thinking",
+    "color": "green"
+   },
+   "b": {
+    "label": "Сразу собирали",
+    "num": "90%",
+    "img": "hero/guard_front",
+    "color": "orange"
+   }
+  }
+ },
+ {
+  "line": "004",
+  "type": "bar",
+  "source": "Тестовые данные: исследование выдумано для проверки монтажа",
+  "data": {
+   "title": "Время сборки",
+   "unit": "мин",
+   "bars": [
+    {
+     "label": "Читали",
+     "value": 40,
+     "color": "green",
+     "at": 0.4
+    }
+   ]
+  }
+ },
+ {
+  "line": "005",
+  "type": "bar",
+  "source": "Тестовые данные: исследование выдумано для проверки монтажа",
+  "data": {
+   "title": "Время сборки",
+   "unit": "мин",
+   "bars": [
+    {
+     "label": "Читали",
+     "value": 40,
+     "color": "green",
+     "instant": true
+    },
+    {
+     "label": "Сразу собирали",
+     "value": 55,
+     "color": "orange",
+     "at": 0.3
+    }
+   ]
+  }
+ },
+ {
+  "line": "006",
+  "type": "image",
+  "img": "hero/point_right",
+  "pos": "left",
+  "effect": "pan_right",
+  "focus": [
+   0.97,
+   0.24
+  ],
+  "callout": {
+   "from": [
+    0.42,
+    0.31
+   ],
+   "to": [
+    0.68,
+    0.16
+   ],
+   "text": "разница во времени",
+   "at": 0.4,
+   "color": "orange"
+  },
+  "counter": {
+   "from": 0,
+   "to": 15,
+   "at": 0.4,
+   "dur": 40,
+   "label": "минут разницы",
+   "pos": "right",
+   "color": "orange"
+  }
+ },
+ {
+  "line": "007",
+  "type": "split",
+  "data": {
+   "a": {
+    "label": "Собирали сразу",
+    "num": "62%",
+    "sub": "назвали процесс весёлым",
+    "img": "hero/thumbs_up",
+    "color": "green"
+   },
+   "b": {
+    "label": "Читали сначала",
+    "num": "48%",
+    "sub": "назвали процесс весёлым",
+    "img": "hero/hand_on_head",
+    "color": "red"
+   }
+  }
+ },
+ {
+  "line": "008",
+  "type": "scale",
+  "data": {
+   "title": "Время против удовольствия",
+   "left": {
+    "label": "Сэкономлено",
+    "value": 15,
+    "color": "orange"
+   },
+   "right": {
+    "label": "Удовольствие",
+    "value": 14,
+    "color": "green"
+   },
+   "unit": "баллов"
+  }
+ },
+ {
+  "line": "009",
+  "type": "steps",
+  "img": "hero/walk_side",
+  "data": {
+   "title": "Порядок",
+   "steps": [
+    "Прочёл",
+    "Собрал",
+    "Проверил"
+   ],
+   "color": "green"
+  }
+ },
+ {
+  "line": "010",
+  "type": "image",
+  "img": "hero/shrug",
+  "pos": "right",
+  "effect": "pull",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "slide": {
+   "from": "left",
+   "at": 0.3,
+   "text": {
+    "lines": [
+     "Цифры *придуманы*"
+    ],
+    "accent": "red",
+    "pos": "left",
+    "size": 88
+   }
+  },
+  "source": "Тестовые данные: исследование выдумано для проверки монтажа"
+ }
+]

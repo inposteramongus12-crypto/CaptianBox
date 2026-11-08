@@ -1,202 +1,2026 @@
 [
  {
   "line": "001",
+  "type": "scale",
+  "note": "Scale: слева kachok_on_scale «100 кг», справа hero_on_scale «70 кг», чаша качка внизу; плашка «условно». BigText «*проиграет*», красный.",
+  "data": {
+   "left": {
+    "label": "качок",
+    "value": 100,
+    "color": "red"
+   },
+   "right": {
+    "label": "боксёр",
+    "value": 70,
+    "color": "green"
+   },
+   "unit": "кг"
+  },
+  "badges": [
+   "условно"
+  ]
+ },
+ {
+  "line": "002",
   "type": "image",
-  "img": "hero/stand_front",
-  "pos": "right",
+  "note": "ImageShot kachok_barbell, push. BigText «100 кг», красный, «условно».",
+  "img": "hero/kachok_barbell",
   "effect": "push",
+  "pos": "center",
   "focus": [
    0.5,
    0.3
   ],
   "text": {
    "lines": [
-    "1000 человек",
-    "купили *шкаф*"
+    "100 кг"
+   ],
+   "accent": "red",
+   "pos": "bottom",
+   "at": 0.3
+  },
+  "badges": [
+   "условно"
+  ]
+ },
+ {
+  "line": "003",
+  "type": "image",
+  "note": "ImageShot stand_front, push. BigText «70 кг», зелёный, «условно».",
+  "img": "hero/stand_front",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "70 кг"
+   ],
+   "accent": "green",
+   "pos": "bottom",
+   "at": 0.3
+  },
+  "badges": [
+   "условно"
+  ]
+ },
+ {
+  "line": "004",
+  "type": "split",
+  "note": "Split: kachok_flex_biceps | guard_stance_3q, подписи «100 кг» и «70 кг», «условно».",
+  "data": {
+   "a": {
+    "img": "hero/kachok_flex_biceps",
+    "label": "",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/guard_stance_3q",
+    "label": "100 кг",
+    "color": "green"
+   }
+  },
+  "badges": [
+   "условно"
+  ]
+ },
+ {
+  "line": "005",
+  "type": "text",
+  "note": "BigText на весь экран: «Почему качок *без опыта* проигрывает худому боксёру?», акцент оранжевый.",
+  "text": {
+   "lines": [
+    "Почему качок *без опыта* проигрывает худому боксёру?"
    ],
    "accent": "orange",
-   "pos": "left",
+   "pos": "center",
    "at": 0.3
   }
  },
  {
-  "line": "002",
-  "type": "icons",
-  "img": "hero/stand_front",
-  "data": {
-   "total": 20,
-   "hi": 2,
-   "cols": 10,
-   "num": "100 из 1000",
-   "label": "сначала прочли инструкцию",
-   "color": "green"
-  }
- },
- {
-  "line": "003",
-  "type": "split",
-  "data": {
-   "a": {
-    "label": "Читали",
-    "num": "10%",
-    "img": "hero/thinking",
-    "color": "green"
-   },
-   "b": {
-    "label": "Сразу собирали",
-    "num": "90%",
-    "img": "hero/guard_front",
-    "color": "orange"
-   }
-  }
- },
- {
-  "line": "004",
-  "type": "bar",
-  "source": "Тестовые данные: исследование выдумано для проверки монтажа",
-  "data": {
-   "title": "Время сборки",
-   "unit": "мин",
-   "bars": [
-    {
-     "label": "Читали",
-     "value": 40,
-     "color": "green",
-     "at": 0.4
-    }
-   ]
-  }
- },
- {
-  "line": "005",
-  "type": "bar",
-  "source": "Тестовые данные: исследование выдумано для проверки монтажа",
-  "data": {
-   "title": "Время сборки",
-   "unit": "мин",
-   "bars": [
-    {
-     "label": "Читали",
-     "value": 40,
-     "color": "green",
-     "instant": true
-    },
-    {
-     "label": "Сразу собирали",
-     "value": 55,
-     "color": "orange",
-     "at": 0.3
-    }
-   ]
-  }
- },
- {
   "line": "006",
-  "type": "image",
-  "img": "hero/point_right",
-  "pos": "left",
-  "effect": "pan_right",
-  "focus": [
-   0.97,
-   0.24
-  ],
-  "callout": {
-   "from": [
-    0.42,
-    0.31
+  "type": "steps",
+  "note": "Steps: три ступени «Раунд 1 · 2 · 3», третья подсвечена красным.",
+  "data": {
+   "steps": [
+    "Раунд 1",
+    "Раунд 2",
+    "Раунд 3"
    ],
-   "to": [
-    0.68,
-    0.16
-   ],
-   "text": "разница во времени",
-   "at": 0.4,
-   "color": "orange"
-  },
-  "counter": {
-   "from": 0,
-   "to": 15,
-   "at": 0.4,
-   "dur": 40,
-   "label": "минут разницы",
-   "pos": "right",
-   "color": "orange"
+   "color": "red"
   }
  },
  {
   "line": "007",
-  "type": "split",
-  "data": {
-   "a": {
-    "label": "Собирали сразу",
-    "num": "62%",
-    "sub": "назвали процесс весёлым",
-    "img": "hero/thumbs_up",
-    "color": "green"
-   },
-   "b": {
-    "label": "Читали сначала",
-    "num": "48%",
-    "sub": "назвали процесс весёлым",
-    "img": "hero/hand_on_head",
-    "color": "red"
-   }
+  "type": "image",
+  "note": "ImageShot kachok_wide_swing, push. Callout «сначала — он», красный.",
+  "img": "hero/kachok_wide_swing",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.45
+   ],
+   "to": [
+    0.72,
+    0.25
+   ],
+   "text": "сначала — он",
+   "at": 0.4,
+   "color": "red"
   }
  },
  {
   "line": "008",
-  "type": "scale",
-  "data": {
-   "title": "Время против удовольствия",
-   "left": {
-    "label": "Сэкономлено",
-    "value": 15,
-    "color": "orange"
-   },
-   "right": {
-    "label": "Удовольствие",
-    "value": 14,
-    "color": "green"
-   },
-   "unit": "баллов"
+  "type": "image",
+  "note": "ImageShot kachok_barbell, push. BigText внизу «объём есть, *боёв 0*», акцент красный.",
+  "img": "hero/kachok_barbell",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "объём есть, *боёв 0*"
+   ],
+   "accent": "red",
+   "pos": "bottom",
+   "at": 0.3
   }
  },
  {
   "line": "009",
-  "type": "steps",
-  "img": "hero/walk_side",
-  "data": {
-   "title": "Порядок",
-   "steps": [
-    "Прочёл",
-    "Собрал",
-    "Проверил"
+  "type": "image",
+  "note": "ImageShot kachok_flex_biceps, push. BigText «*сильный*, но не боксёр», красный.",
+  "img": "hero/kachok_flex_biceps",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "*сильный*, но не боксёр"
    ],
-   "color": "green"
+   "accent": "red",
+   "pos": "bottom",
+   "at": 0.3
   }
  },
  {
   "line": "010",
   "type": "image",
-  "img": "hero/shrug",
-  "pos": "right",
-  "effect": "pull",
+  "note": "ImageShot guard_front, pan_right. Плашка «70 кг · 5 лет бокса · условно».",
+  "img": "hero/guard_front",
+  "effect": "pan_right",
+  "pos": "center",
   "focus": [
    0.5,
    0.3
   ],
+  "badges": [
+   "условно"
+  ]
+ },
+ {
+  "line": "011",
+  "type": "image",
+  "note": "ImageShot guard_stance_3q, pan_left.",
+  "img": "hero/guard_stance_3q",
+  "effect": "pan_left",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "012",
+  "type": "split",
+  "note": "Split: kachok_stand_front | stand_front, подпись «рост = · возраст =».",
+  "data": {
+   "a": {
+    "img": "hero/kachok_stand_front",
+    "label": "",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/stand_front",
+    "label": "рост = · возраст =",
+    "color": "green"
+   }
+  }
+ },
+ {
+  "line": "013",
+  "type": "icons",
+  "note": "IconGrid: 3 значка гонга, подпись «3 × 3 мин, условно». SlideIn снизу: «перчатки · шлемы · судья».",
+  "img": "hero/guard_front",
+  "data": {
+   "total": 3,
+   "hi": 3,
+   "cols": 3,
+   "label": "3 × 3 мин, условно",
+   "color": "green"
+  },
   "slide": {
-   "from": "left",
-   "at": 0.3,
+   "from": "bottom",
+   "at": 0.4,
    "text": {
     "lines": [
-     "Цифры *придуманы*"
+     "перчатки · шлемы · судья"
     ],
-    "accent": "red",
-    "pos": "left",
-    "size": 88
+    "accent": "orange",
+    "pos": "bottom"
    }
   },
-  "source": "Тестовые данные: исследование выдумано для проверки монтажа"
+  "badges": [
+   "условно"
+  ]
+ },
+ {
+  "line": "014",
+  "type": "text",
+  "note": "BigText «*только* бокс», зелёный.",
+  "text": {
+   "lines": [
+    "*только* бокс"
+   ],
+   "accent": "green",
+   "pos": "center",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "015",
+  "type": "image",
+  "note": "ImageShot helmet_closeup, push.",
+  "img": "hero/helmet_closeup",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "016",
+  "type": "icons",
+  "note": "IconGrid: 4 тёмные ячейки, подпись «правила 0/4».",
+  "img": "hero/guard_front",
+  "data": {
+   "total": 4,
+   "hi": 0,
+   "cols": 4,
+   "num": "0/4",
+   "label": "правила",
+   "color": "green"
+  }
+ },
+ {
+  "line": "017",
+  "type": "text",
+  "note": "BigText «ринг = *схема*, не измерения», оранжевый.",
+  "text": {
+   "lines": [
+    "ринг = *схема*, не измерения"
+   ],
+   "accent": "orange",
+   "pos": "center",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "018",
+  "type": "image",
+  "note": "ImageShot kachok_guard_clumsy, push. Плашка «схема, не измерения».",
+  "img": "hero/kachok_guard_clumsy",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "019",
+  "type": "image",
+  "note": "ImageShot kachok_arm_punch, push к руке. Callout на ступни: «ноги стоят», красный. Плашка «схема, не измерения».",
+  "img": "hero/kachok_arm_punch",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.85
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.85
+   ],
+   "to": [
+    0.72,
+    0.72
+   ],
+   "text": "ноги стоят",
+   "at": 0.4,
+   "color": "red"
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "020",
+  "type": "image",
+  "note": "ImageShot kachok_arm_punch, pull. Плашка «схема, не измерения».",
+  "img": "hero/kachok_arm_punch",
+  "effect": "pull",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "021",
+  "type": "image",
+  "note": "ImageShot hero_cross_rotation_3q_back, pan_left. Callout цепочкой: «стопа → бедро → плечо», оранжевый. Плашка «схема, не измерения».",
+  "img": "hero/hero_cross_rotation_3q_back",
+  "effect": "pan_left",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.45
+   ],
+   "to": [
+    0.72,
+    0.25
+   ],
+   "text": "стопа → бедро → плечо",
+   "at": 0.4,
+   "color": "orange"
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "022",
+  "type": "image",
+  "note": "ImageShot punch_cross, push. Плашка «схема, не измерения».",
+  "img": "hero/punch_cross",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "023",
+  "type": "steps",
+  "note": "Steps «ноги → бедро → корпус → плечо → кулак», последняя ступень зелёная. ImageShot side_2. Плашка «схема, не измерения».",
+  "img": "hero/side_2",
+  "data": {
+   "steps": [
+    "ноги",
+    "бедро",
+    "корпус",
+    "плечо",
+    "кулак"
+   ],
+   "color": "green"
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "024",
+  "type": "image",
+  "note": "ImageShot kachok_arm_punch, push к плечу. Callout «начало здесь», красный. Плашка «схема, не измерения».",
+  "img": "hero/kachok_arm_punch",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.35
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.45
+   ],
+   "to": [
+    0.72,
+    0.25
+   ],
+   "text": "начало здесь",
+   "at": 0.4,
+   "color": "red"
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "025",
+  "type": "image",
+  "note": "ImageShot side. SourceCaption «Satkunskiene и др., 2024 · 12 боксёров · PMID 39074243».",
+  "img": "hero/side",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "source": "Satkunskiene и др., 2024 · 12 боксёров · PMID 39074243"
+ },
+ {
+  "line": "026",
+  "type": "steps",
+  "note": "Steps снизу вверх: «ноги толкают пол → разворот корпуса → удар», последняя ступень зелёная.",
+  "data": {
+   "steps": [
+    "ноги толкают пол",
+    "разворот корпуса",
+    "удар"
+   ],
+   "color": "green"
+  }
+ },
+ {
+  "line": "027",
+  "type": "image",
+  "note": "ImageShot guard_stance_3q, push. SourceCaption «Loturco и др., 2016 · 15 боксёров сборной».",
+  "img": "hero/guard_stance_3q",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "source": "Loturco и др., 2016 · 15 боксёров сборной"
+ },
+ {
+  "line": "028",
+  "type": "image",
+  "note": "ImageShot hero_footwork_side. BigText «прыжок ↑ → *удар ↑*», зелёный.",
+  "img": "hero/hero_footwork_side",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "прыжок ↑ → *удар ↑*"
+   ],
+   "accent": "green",
+   "pos": "bottom",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "029",
+  "type": "text",
+  "note": "BigText «Правило 1: удар *от ног*», зелёный. IconGrid «правила 1/4», одна ячейка подсвечена.",
+  "text": {
+   "lines": [
+    "Правило 1: удар *от ног*"
+   ],
+   "accent": "green",
+   "pos": "center",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "030",
+  "type": "image",
+  "note": "ImageShot hero_footwork_side, push к ступням. Callout «запомни», оранжевый.",
+  "img": "hero/hero_footwork_side",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.85
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.85
+   ],
+   "to": [
+    0.72,
+    0.72
+   ],
+   "text": "запомни",
+   "at": 0.4,
+   "color": "orange"
+  }
+ },
+ {
+  "line": "031",
+  "type": "image",
+  "note": "ImageShot kachok_flex_biceps, push.",
+  "img": "hero/kachok_flex_biceps",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "032",
+  "type": "split",
+  "note": "Split: kachok_flex_biceps «большой мотор», красный | guard_stance_3q «отлаженный мотор», зелёный.",
+  "data": {
+   "a": {
+    "img": "hero/kachok_flex_biceps",
+    "label": "большой мотор",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/guard_stance_3q",
+    "label": "отлаженный мотор",
+    "color": "green"
+   }
+  }
+ },
+ {
+  "line": "033",
+  "type": "split",
+  "note": "Split тот же, плашки «в сумме: больше» и «с сантиметра: меньше»; подпись «образ».",
+  "data": {
+   "a": {
+    "img": "hero/stand_front",
+    "label": "в сумме: больше",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/stand_front",
+    "label": "",
+    "color": "green"
+   }
+  },
+  "badges": [
+   "образ"
+  ]
+ },
+ {
+  "line": "034",
+  "type": "icons",
+  "note": "IconGrid 32 фигурки, подпись «32 человека». SourceCaption «Meijer и др., 2015 · бедро, 32 человека».",
+  "img": "hero/guard_front",
+  "data": {
+   "total": 32,
+   "hi": 32,
+   "cols": 16,
+   "num": "32",
+   "label": "32 человека",
+   "color": "green"
+  },
+  "source": "Meijer и др., 2015 · бедро, 32 человека"
+ },
+ {
+  "line": "035",
+  "type": "split",
+  "note": "Split: kachok_barbell «умеренно, много» | punch_jab «тяжело, коротко». Подпись «бедро, 32 человека».",
+  "data": {
+   "a": {
+    "img": "hero/kachok_barbell",
+    "label": "умеренно, много",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/punch_jab",
+    "label": "тяжело, коротко",
+    "color": "green"
+   }
+  },
+  "badges": [
+   "бедро, 32 человека"
+  ]
+ },
+ {
+  "line": "036",
+  "type": "bar",
+  "note": "BarChart «толщина волокна»: обычные 100, бодибилдеры 188 (+88 %), красный. SourceCaption «бедро, 32 человека».",
+  "data": {
+   "title": "Толщина волокна",
+   "unit": "%",
+   "bars": [
+    {
+     "label": "обычные",
+     "value": 100,
+     "color": "green"
+    },
+    {
+     "label": "бодибилдеры",
+     "value": 188,
+     "color": "red"
+    }
+   ]
+  },
+  "source": "бедро, 32 человека"
+ },
+ {
+  "line": "037",
+  "type": "bar",
+  "note": "BarChart «сила на единицу толщины»: обычные 100, бодибилдеры 59 (−41 %), оранжевый. SourceCaption «бедро, 32 человека».",
+  "data": {
+   "title": "Сила на единицу толщины",
+   "unit": "%",
+   "bars": [
+    {
+     "label": "обычные",
+     "value": 100,
+     "color": "green"
+    },
+    {
+     "label": "бодибилдеры",
+     "value": 59,
+     "color": "orange"
+    }
+   ]
+  },
+  "source": "бедро, 32 человека"
+ },
+ {
+  "line": "038",
+  "type": "image",
+  "note": "ImageShot thinking, pull. BigText «бедро · 32 человека · *про руки не знаем*», оранжевый.",
+  "img": "hero/thinking",
+  "effect": "pull",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "бедро",
+    "32 человека",
+    "*про руки не знаем*"
+   ],
+   "accent": "orange",
+   "pos": "bottom",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "039",
+  "type": "image",
+  "note": "ImageShot kachok_stand_front, pull.",
+  "img": "hero/kachok_stand_front",
+  "effect": "pull",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "040",
+  "type": "text",
+  "note": "BigText «Правило 2: толще ≠ *сильнее на сантиметр*», оранжевый. IconGrid «правила 2/4».",
+  "text": {
+   "lines": [
+    "Правило 2: толще ≠ *сильнее на сантиметр*"
+   ],
+   "accent": "orange",
+   "pos": "center",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "041",
+  "type": "image",
+  "note": "ImageShot kachok_stand_front, push. Callout «на сантиметр», оранжевый.",
+  "img": "hero/kachok_stand_front",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.45
+   ],
+   "to": [
+    0.72,
+    0.25
+   ],
+   "text": "на сантиметр",
+   "at": 0.4,
+   "color": "orange"
+  }
+ },
+ {
+  "line": "042",
+  "type": "image",
+  "note": "ImageShot punch_jab, push. SourceCaption «Smith и др., 2000 · 23 боксёра · вес групп не сравнивали».",
+  "img": "hero/punch_jab",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "source": "Smith и др., 2000 · 23 боксёра · вес групп не сравнивали"
+ },
+ {
+  "line": "043",
+  "type": "icons",
+  "note": "IconGrid 23 фигурки, подпись «23 боксёра · новички, средние, элита». Подпись «вес групп не сравнивали».",
+  "img": "hero/guard_front",
+  "data": {
+   "total": 23,
+   "hi": 23,
+   "cols": 16,
+   "num": "23",
+   "label": "23 боксёра · новички, средние, элита",
+   "color": "green"
+  },
+  "badges": [
+   "вес групп не сравнивали"
+  ]
+ },
+ {
+  "line": "044",
+  "type": "bar",
+  "note": "BarChart: «новички ≈2 400 Н» серый, «элита ≈4 800 Н» зелёный. Плашка «вес групп не сравнивали», оранжевый.",
+  "data": {
+   "title": "Прямой удар задней рукой",
+   "unit": "Н",
+   "bars": [
+    {
+     "label": "новички",
+     "value": 2400,
+     "color": "gray"
+    },
+    {
+     "label": "элита",
+     "value": 4800,
+     "color": "green"
+    }
+   ]
+  },
+  "badges": [
+   "вес групп не сравнивали"
+  ]
+ },
+ {
+  "line": "045",
+  "type": "text",
+  "note": "BigText «примерно *вдвое*», зелёный. SourceCaption «Smith 2000 · 23 боксёра · вес групп не сравнивали».",
+  "text": {
+   "lines": [
+    "примерно *вдвое*"
+   ],
+   "accent": "green",
+   "pos": "center",
+   "at": 0.3
+  },
+  "source": "Smith 2000 · 23 боксёра · вес групп не сравнивали"
+ },
+ {
+  "line": "046",
+  "type": "steps",
+  "note": "Steps три ступени «новички → средние → элита», элита зелёная. Подпись «вес групп не сравнивали».",
+  "data": {
+   "steps": [
+    "новички",
+    "средние",
+    "элита"
+   ],
+   "color": "green"
+  },
+  "badges": [
+   "вес групп не сравнивали"
+  ]
+ },
+ {
+  "line": "047",
+  "type": "image",
+  "note": "ImageShot punch_cross, push. SourceCaption «Mosler и др., 2024 · 13 боксёров».",
+  "img": "hero/punch_cross",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "source": "Mosler и др., 2024 · 13 боксёров"
+ },
+ {
+  "line": "048",
+  "type": "image",
+  "note": "ImageShot present_hand_right. Callout от плеча к кулаку: «доходит до кулака», оранжевый.",
+  "img": "hero/present_hand_right",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.45
+   ],
+   "to": [
+    0.72,
+    0.25
+   ],
+   "text": "доходит до кулака",
+   "at": 0.4,
+   "color": "orange"
+  }
+ },
+ {
+  "line": "049",
+  "type": "image",
+  "note": "ImageShot helmet_closeup_calm, push.",
+  "img": "hero/helmet_closeup_calm",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "050",
+  "type": "image",
+  "note": "ImageShot hand_on_head.",
+  "img": "hero/hand_on_head",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "051",
+  "type": "image",
+  "note": "ImageShot hero_heavy_bag, push. Steps «стопа → бедро → плечо → кулак», зелёный.",
+  "img": "hero/hero_heavy_bag",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "052",
+  "type": "split",
+  "note": "Split: kachok_flex_biceps «сильный» | punch_cross «умеет бить».",
+  "data": {
+   "a": {
+    "img": "hero/kachok_flex_biceps",
+    "label": "сильный",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/punch_cross",
+    "label": "умеет бить",
+    "color": "green"
+   }
+  }
+ },
+ {
+  "line": "053",
+  "type": "text",
+  "note": "BigText «Правило 3: удар — *навык*», зелёный. IconGrid «правила 3/4».",
+  "text": {
+   "lines": [
+    "Правило 3: удар — *навык*"
+   ],
+   "accent": "green",
+   "pos": "center",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "054",
+  "type": "steps",
+  "note": "Steps «новички → средние → элита», качок на первой ступени, красный. Плашка «условно».",
+  "data": {
+   "steps": [
+    "новички",
+    "средние",
+    "элита"
+   ],
+   "color": "red"
+  },
+  "badges": [
+   "условно"
+  ]
+ },
+ {
+  "line": "055",
+  "type": "image",
+  "note": "ImageShot kachok_guard_clumsy, push. BigText «*не готов*», красный.",
+  "img": "hero/kachok_guard_clumsy",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "*не готов*"
+   ],
+   "accent": "red",
+   "pos": "bottom",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "056",
+  "type": "image",
+  "note": "ImageShot punch_jab, быстрый push.",
+  "img": "hero/punch_jab",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "057",
+  "type": "text",
+  "note": "Counter 0→77 «% энергии — дыхание», зелёный. SourceCaption «Davis и др., 2014 · 10 боксёров».",
+  "counter": {
+   "from": 0,
+   "to": 77,
+   "at": 0.3,
+   "dur": 45,
+   "suffix": " %",
+   "label": "энергии — дыхание",
+   "color": "green",
+   "pos": "center"
+  },
+  "source": "Davis и др., 2014 · 10 боксёров"
+ },
+ {
+  "line": "058",
+  "type": "steps",
+  "note": "Steps: три ступени-раунда, BigText «9 минут», оранжевый.",
+  "data": {
+   "steps": [
+    "Раунд 1",
+    "Раунд 2",
+    "Раунд 3"
+   ],
+   "color": "orange"
+  },
+  "text": {
+   "lines": [
+    "9 минут"
+   ],
+   "accent": "orange",
+   "pos": "top",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "059",
+  "type": "image",
+  "note": "ImageShot guard_front, push. Counter 3:00 → 0:00 «раунд», оранжевый.",
+  "img": "hero/guard_front",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "counter": {
+   "from": 3,
+   "to": 0,
+   "at": 0.3,
+   "dur": 60,
+   "suffix": " мин",
+   "label": "раунд",
+   "color": "orange",
+   "pos": "right"
+  }
+ },
+ {
+  "line": "060",
+  "type": "image",
+  "note": "ImageShot guard_front. SourceCaption «Dunn и др., 2022 (онлайн 2021) · 28 боксёров · PMID 33858296».",
+  "img": "hero/guard_front",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "source": "Dunn и др., 2022 (онлайн 2021) · 28 боксёров · PMID 33858296"
+ },
+ {
+  "line": "061",
+  "type": "steps",
+  "note": "Steps: «удары → гребля → удары».",
+  "data": {
+   "steps": [
+    "удары",
+    "гребля",
+    "удары"
+   ],
+   "color": "green"
+  }
+ },
+ {
+  "line": "062",
+  "type": "image",
+  "note": "ImageShot hero_breathing_calm. Callout на бёдра и корпус: «устали», оранжевый.",
+  "img": "hero/hero_breathing_calm",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.85
+   ],
+   "to": [
+    0.72,
+    0.72
+   ],
+   "text": "устали",
+   "at": 0.4,
+   "color": "orange"
+  }
+ },
+ {
+  "line": "063",
+  "type": "image",
+  "note": "ImageShot punch_cross, Callout на корпус: «разворот», красный. BigText «устали ноги: *кросс и хук слабее*».",
+  "img": "hero/punch_cross",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "устали ноги: *кросс и хук слабее*"
+   ],
+   "accent": "orange",
+   "pos": "bottom",
+   "at": 0.3
+  },
+  "callout": {
+   "from": [
+    0.5,
+    0.45
+   ],
+   "to": [
+    0.72,
+    0.25
+   ],
+   "text": "разворот",
+   "at": 0.4,
+   "color": "red"
+  }
+ },
+ {
+  "line": "064",
+  "type": "split",
+  "note": "Split: hero_cross_rotation_3q_back | kachok_hands_knees.",
+  "data": {
+   "a": {
+    "img": "hero/hero_cross_rotation_3q_back",
+    "label": "",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/kachok_hands_knees",
+    "label": "",
+    "color": "green"
+   }
+  }
+ },
+ {
+  "line": "065",
+  "type": "split",
+  "note": "Split: punch_jab «джеб: меньше» | punch_cross «кросс: больше», BigText «сила шла *не только из рук*», красный.",
+  "data": {
+   "a": {
+    "img": "hero/punch_jab",
+    "label": "джеб: меньше",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/punch_cross",
+    "label": "кросс: больше",
+    "color": "red"
+   }
+  },
+  "text": {
+   "lines": [
+    "сила шла *не только из рук*"
+   ],
+   "accent": "red",
+   "pos": "top",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "066",
+  "type": "image",
+  "note": "ImageShot kachok_barbell, pull. BigText «не тренирован *под три раунда*», оранжевый.",
+  "img": "hero/kachok_barbell",
+  "effect": "pull",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "не тренирован *под три раунда*"
+   ],
+   "accent": "orange",
+   "pos": "bottom",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "067",
+  "type": "image",
+  "note": "ImageShot hero_breathing_calm, push.",
+  "img": "hero/hero_breathing_calm",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "068",
+  "type": "text",
+  "note": "BigText «Правило 4: удар живёт, *пока живут ноги*», зелёный. IconGrid «правила 4/4», все ячейки подсвечены.",
+  "text": {
+   "lines": [
+    "Правило 4: удар живёт, *пока живут ноги*"
+   ],
+   "accent": "green",
+   "pos": "center",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "069",
+  "type": "text",
+  "note": "Звук гонга. BigText «*Ринг*», красный.",
+  "text": {
+   "lines": [
+    "*Ринг*"
+   ],
+   "accent": "red",
+   "pos": "center",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "070",
+  "type": "text",
+  "note": "BigText «Раунд 1», красный. Плашка «схема, не измерения».",
+  "text": {
+   "lines": [
+    "Раунд 1"
+   ],
+   "accent": "red",
+   "pos": "center",
+   "at": 0.3
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "071",
+  "type": "image",
+  "note": "ImageShot kachok_wide_swing, push. Плашка «схема, не измерения».",
+  "img": "hero/kachok_wide_swing",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "072",
+  "type": "image",
+  "note": "ImageShot kachok_wide_swing, pan_right. Подпись «схема, не измерения».",
+  "img": "hero/kachok_wide_swing",
+  "effect": "pan_right",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "073",
+  "type": "scale",
+  "note": "Scale «раунд 1»: чаша качка ниже. Подпись «схема, не измерения».",
+  "data": {
+   "title": "Раунд 1",
+   "left": {
+    "label": "качок",
+    "value": 2,
+    "text": "ведёт",
+    "color": "red"
+   },
+   "right": {
+    "label": "боксёр",
+    "value": 1,
+    "text": "",
+    "color": "green"
+   }
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "074",
+  "type": "image",
+  "note": "ImageShot kachok_wide_swing, pull. Облачка зрителей: «Всё, конец худому». Плашка «схема, не измерения».",
+  "img": "hero/kachok_wide_swing",
+  "effect": "pull",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "075",
+  "type": "image",
+  "note": "ImageShot hero_slip, pan_right. Плашка «схема, не измерения».",
+  "img": "hero/hero_slip",
+  "effect": "pan_right",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "076",
+  "type": "image",
+  "note": "ImageShot helmet_closeup_calm. Плашка «схема, не измерения».",
+  "img": "hero/helmet_closeup_calm",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "077",
+  "type": "image",
+  "note": "ImageShot punch_jab, push. Плашка «схема, не измерения».",
+  "img": "hero/punch_jab",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "078",
+  "type": "image",
+  "note": "ImageShot guard_front, push. IconGrid мини: подсвечено «3». Плашка «схема, не измерения».",
+  "img": "hero/guard_front",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "079",
+  "type": "split",
+  "note": "Split: kachok_gasping_low_guard | hero_breathing_calm. Подпись «схема, не измерения».",
+  "data": {
+   "a": {
+    "img": "hero/kachok_gasping_low_guard",
+    "label": "",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/hero_breathing_calm",
+    "label": "",
+    "color": "green"
+   }
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "080",
+  "type": "text",
+  "note": "BigText «Раунд 2», оранжевый. Плашка «схема, не измерения».",
+  "text": {
+   "lines": [
+    "Раунд 2"
+   ],
+   "accent": "orange",
+   "pos": "center",
+   "at": 0.3
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "081",
+  "type": "image",
+  "note": "ImageShot kachok_gasping_low_guard, push. Плашка «схема, не измерения».",
+  "img": "hero/kachok_gasping_low_guard",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "082",
+  "type": "image",
+  "note": "ImageShot kachok_wide_swing, pan_left. Подпись «схема, не измерения».",
+  "img": "hero/kachok_wide_swing",
+  "effect": "pan_left",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "083",
+  "type": "image",
+  "note": "ImageShot kachok_arm_punch. Callout на ступни: «ноги стоят», красный. Плашка «схема, не измерения».",
+  "img": "hero/kachok_arm_punch",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.85
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.85
+   ],
+   "to": [
+    0.72,
+    0.72
+   ],
+   "text": "ноги стоят",
+   "at": 0.4,
+   "color": "red"
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "084",
+  "type": "image",
+  "note": "ImageShot kachok_wide_swing, push. Плашка «схема, не измерения».",
+  "img": "hero/kachok_wide_swing",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "085",
+  "type": "image",
+  "note": "ImageShot hero_slip, pan_left. Callout «мимо», оранжевый. Плашка «схема, не измерения».",
+  "img": "hero/hero_slip",
+  "effect": "pan_left",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.45
+   ],
+   "to": [
+    0.72,
+    0.25
+   ],
+   "text": "мимо",
+   "at": 0.4,
+   "color": "orange"
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "086",
+  "type": "split",
+  "note": "Split: kachok_flex_biceps | guard_stance_3q, подписи «большой» / «отлаженный». Плашка «схема, не измерения».",
+  "data": {
+   "a": {
+    "img": "hero/kachok_flex_biceps",
+    "label": "",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/guard_stance_3q",
+    "label": "большой",
+    "color": "green"
+   }
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "087",
+  "type": "image",
+  "note": "ImageShot hero_cross_rotation_3q_back, push. Callout «стопа → бедро → плечо», зелёный. Плашка «схема, не измерения».",
+  "img": "hero/hero_cross_rotation_3q_back",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.45
+   ],
+   "to": [
+    0.72,
+    0.25
+   ],
+   "text": "стопа → бедро → плечо",
+   "at": 0.4,
+   "color": "green"
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "088",
+  "type": "image",
+  "note": "ImageShot punch_jab → punch_cross. Подпись «схема, не измерения».",
+  "img": "hero/punch_jab",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "089",
+  "type": "image",
+  "note": "ImageShot kachok_hands_knees, pull. Плашка «схема, не измерения».",
+  "img": "hero/kachok_hands_knees",
+  "effect": "pull",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "090",
+  "type": "text",
+  "note": "BigText «Раунд 3», зелёный. Плашка «схема, не измерения».",
+  "text": {
+   "lines": [
+    "Раунд 3"
+   ],
+   "accent": "green",
+   "pos": "center",
+   "at": 0.3
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "091",
+  "type": "image",
+  "note": "ImageShot kachok_hands_knees, pull. Плашка «схема, не измерения».",
+  "img": "hero/kachok_hands_knees",
+  "effect": "pull",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "092",
+  "type": "image",
+  "note": "ImageShot hero_footwork_side, pan_left. Плашка «схема, не измерения».",
+  "img": "hero/hero_footwork_side",
+  "effect": "pan_left",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "093",
+  "type": "image",
+  "note": "ImageShot guard_stance_3q, push. Counter 1:00 → 0:00, зелёный. Плашка «схема, не измерения».",
+  "img": "hero/guard_stance_3q",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "counter": {
+   "from": 60,
+   "to": 0,
+   "at": 0.3,
+   "dur": 60,
+   "suffix": " с",
+   "label": "последняя минута",
+   "color": "green",
+   "pos": "right"
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "094",
+  "type": "image",
+  "note": "ImageShot hero_cross_rotation_3q_back, push. Steps «стопа → бедро → плечо → кулак», зелёный. Плашка «схема, не измерения».",
+  "img": "hero/hero_cross_rotation_3q_back",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "095",
+  "type": "bar",
+  "note": "BarChart без чисел, по раундам 1–2–3: качок — столбцы падают, красный; боксёр — ровные, зелёный. Подпись «схема, не измерения».",
+  "data": {
+   "title": "Сколько тела доходит до кулака",
+   "noValues": true,
+   "bars": [
+    {
+     "label": "качок · 1",
+     "value": 9,
+     "color": "red"
+    },
+    {
+     "label": "2",
+     "value": 6,
+     "color": "red"
+    },
+    {
+     "label": "3",
+     "value": 3,
+     "color": "red"
+    },
+    {
+     "label": "боксёр · 1",
+     "value": 9,
+     "color": "green"
+    },
+    {
+     "label": "2",
+     "value": 9,
+     "color": "green"
+    },
+    {
+     "label": "3",
+     "value": 8.5,
+     "color": "green"
+    }
+   ]
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "096",
+  "type": "split",
+  "note": "Split: punch_cross | kachok_hit_reeling, затем ImageShot thumbs_up. Плашка «схема, не измерения».",
+  "data": {
+   "a": {
+    "img": "hero/punch_cross",
+    "label": "",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/kachok_hit_reeling",
+    "label": "",
+    "color": "green"
+   }
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "097",
+  "type": "steps",
+  "note": "Steps как в хуке, третья ступень подсвечена красным. Плашка «схема, не измерения».",
+  "data": {
+   "steps": [
+    "Раунд 1",
+    "Раунд 2",
+    "Раунд 3"
+   ],
+   "color": "red"
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "098",
+  "type": "scale",
+  "note": "Scale как в хуке: 100 / 70, чаша поворачивается к 70; IconGrid «правила 4/4» загорается. Подпись «схема, не измерения».",
+  "data": {
+   "left": {
+    "label": "качок",
+    "value": 1,
+    "text": "100 кг",
+    "color": "red"
+   },
+   "right": {
+    "label": "боксёр",
+    "value": 2,
+    "text": "70 кг",
+    "color": "green"
+   }
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "099",
+  "type": "image",
+  "note": "ImageShot hand_on_head. BigText «мышцы *не бесполезны*», оранжевый.",
+  "img": "hero/hand_on_head",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "мышцы *не бесполезны*"
+   ],
+   "accent": "orange",
+   "pos": "bottom",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "100",
+  "type": "image",
+  "note": "ImageShot punch_jab. SourceCaption «Walilko и др., 2005 · 7 олимпийцев».",
+  "img": "hero/punch_jab",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "source": "Walilko и др., 2005 · 7 олимпийцев"
+ },
+ {
+  "line": "101",
+  "type": "scale",
+  "note": "Scale: «лёгкие» | «тяжёлые», чаша тяжёлых внизу.",
+  "data": {
+   "left": {
+    "label": "лёгкие",
+    "value": 1,
+    "text": "",
+    "color": "green"
+   },
+   "right": {
+    "label": "тяжёлые",
+    "value": 2,
+    "text": "",
+    "color": "red"
+   }
+  }
+ },
+ {
+  "line": "102",
+  "type": "scale",
+  "note": "Scale: hero_on_scale «70 кг» | hero_on_scale «100 кг, тот же навык», чаша 100 внизу; «условно». Подпись «вывод, не измерение».",
+  "data": {
+   "left": {
+    "label": "боксёр",
+    "value": 70,
+    "color": "green"
+   },
+   "right": {
+    "label": "тот же навык",
+    "value": 100,
+    "color": "red"
+   },
+   "unit": "кг"
+  },
+  "badges": [
+   "условно",
+   "вывод, не измерение"
+  ]
+ },
+ {
+  "line": "103",
+  "type": "text",
+  "note": "Counter 0→10 «% разницы объясняет масса», оранжевый. SourceCaption «Pinto и др., 2025 · 69 человек, одно исследование».",
+  "counter": {
+   "from": 0,
+   "to": 10,
+   "at": 0.3,
+   "dur": 45,
+   "suffix": " %",
+   "label": "разницы объясняет масса",
+   "color": "orange",
+   "pos": "center"
+  },
+  "source": "Pinto и др., 2025 · 69 человек, одно исследование"
+ },
+ {
+  "line": "104",
+  "type": "scale",
+  "note": "Scale с гирьками: «масса», «рост», «размах рук», «другое»; гирька «масса» маленькая, оранжевая. Подпись «одно исследование».",
+  "data": {
+   "title": "Что объясняет силу удара",
+   "left": {
+    "label": "масса",
+    "value": 1,
+    "text": "",
+    "color": "orange"
+   },
+   "right": {
+    "label": "рост, размах рук, другое",
+    "value": 3,
+    "text": "",
+    "color": "green"
+   }
+  },
+  "badges": [
+   "одно исследование"
+  ]
+ },
+ {
+  "line": "105",
+  "type": "text",
+  "note": "BigText «не мышцы *или* навык, а *мышцы + навык*», зелёный.",
+  "text": {
+   "lines": [
+    "не мышцы *или* навык, а *мышцы + навык*"
+   ],
+   "accent": "green",
+   "pos": "center",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "106",
+  "type": "image",
+  "note": "ImageShot present_hand_belly. BigText «масса должна *научиться работать*», зелёный.",
+  "img": "hero/present_hand_belly",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "масса должна *научиться работать*"
+   ],
+   "accent": "green",
+   "pos": "bottom",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "107",
+  "type": "image",
+  "note": "ImageShot kachok_stand_front, pull.",
+  "img": "hero/kachok_stand_front",
+  "effect": "pull",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "108",
+  "type": "image",
+  "note": "ImageShot kachok_handshake, push.",
+  "img": "hero/kachok_handshake",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "109",
+  "type": "image",
+  "note": "ImageShot thumbs_up.",
+  "img": "hero/thumbs_up",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ]
+ },
+ {
+  "line": "110",
+  "type": "image",
+  "note": "ImageShot kachok_stand_front, push. BigText «*ученик*», зелёный.",
+  "img": "hero/kachok_stand_front",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.3
+  ],
+  "text": {
+   "lines": [
+    "*ученик*"
+   ],
+   "accent": "green",
+   "pos": "bottom",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "111",
+  "type": "split",
+  "note": "Split: kachok_guard_clumsy | guard_front; BigText «100 кг + *навык*», красный.",
+  "data": {
+   "a": {
+    "img": "hero/kachok_guard_clumsy",
+    "label": "",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/guard_front",
+    "label": "",
+    "color": "green"
+   }
+  },
+  "text": {
+   "lines": [
+    "100 кг + *навык*"
+   ],
+   "accent": "red",
+   "pos": "top",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "112",
+  "type": "split",
+  "note": "Split: kachok_barbell | hero_heavy_bag. BigText «масса *или* удар от ног?», оранжевый.",
+  "data": {
+   "a": {
+    "img": "hero/kachok_barbell",
+    "label": "",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/hero_heavy_bag",
+    "label": "",
+    "color": "green"
+   }
+  },
+  "text": {
+   "lines": [
+    "масса *или* удар от ног?"
+   ],
+   "accent": "orange",
+   "pos": "top",
+   "at": 0.3
+  }
  }
 ]

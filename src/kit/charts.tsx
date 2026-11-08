@@ -11,7 +11,7 @@ const useSpring = (at = 0, damping = 15, stiffness = 120) => {
 
 /* ---------- BarChart: vertical bars grow from the baseline, value on a plate above ---------- */
 export type Bar = {label: string; value: number; color?: string; at?: number; instant?: boolean};
-export const BarChart: React.FC<{bars: Bar[]; unit?: string; title?: string; max?: number}> = ({bars, unit = '', title, max}) => {
+export const BarChart: React.FC<{bars: Bar[]; unit?: string; title?: string; max?: number; noValues?: boolean}> = ({bars, unit = '', title, max, noValues}) => {
 	const f = useCurrentFrame();
 	const {fps} = useVideoConfig();
 	const {W, H, pad, v} = useLayout();
@@ -37,9 +37,11 @@ export const BarChart: React.FC<{bars: Bar[]; unit?: string; title?: string; max
 				return (
 					<React.Fragment key={i}>
 						<div style={{position: 'absolute', left: x, top: base - h, width: bw, height: h, background: c, borderRadius: '18px 18px 0 0'}} />
-						<div style={{position: 'absolute', left: x - 40, width: bw + 80, top: base - h - 100, textAlign: 'center', opacity: Math.min(1, k * 2)}}>
-							<Plate size={64} border={c}>{Math.round(b.value * k)}{unit ? ' ' + unit : ''}</Plate>
-						</div>
+						{noValues ? null : (
+							<div style={{position: 'absolute', left: x - 40, width: bw + 80, top: base - h - 100, textAlign: 'center', opacity: Math.min(1, k * 2)}}>
+								<Plate size={64} border={c}>{Math.round(b.value * k)}{unit ? ' ' + unit : ''}</Plate>
+							</div>
+						)}
 						<div style={{position: 'absolute', left: x - 50, width: bw + 100, top: base + 26, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: 61, lineHeight: 1.1, color: '#fff'}}>{b.label}</div>
 					</React.Fragment>
 				);
@@ -49,7 +51,7 @@ export const BarChart: React.FC<{bars: Bar[]; unit?: string; title?: string; max
 };
 
 /* ---------- Scale: beam tilts to the heavier side ---------- */
-type Side = {label: string; value: number; color?: string};
+type Side = {label: string; value: number; color?: string; text?: string}; // text: shown instead of the number ('' = label only); value then only tilts the beam
 export const Scale: React.FC<{left: Side; right: Side; unit?: string; title?: string}> = ({left, right, unit = '', title}) => {
 	const k = useSpring(6, 9, 60);
 	const {W, H, pad, v} = useLayout();
@@ -92,7 +94,7 @@ export const Scale: React.FC<{left: Side; right: Side; unit?: string; title?: st
 				<div key={i} style={{position: 'absolute', left: x - pw / 2, width: pw, top: y + drop + 100, textAlign: 'center'}}>
 					<Plate border={accent(s.color ?? (i ? 'green' : 'orange'))} style={{padding: '10px 24px'}}>
 						<div style={{fontSize: 58, color: COL.dim, fontWeight: 700}}>{s.label}</div>
-						<div style={{fontSize: 96}}>{s.value}{unit ? <span style={{fontSize: 56}}> {unit}</span> : null}</div>
+						{s.text !== undefined ? (s.text ? <div style={{fontSize: 80}}>{s.text}</div> : null) : <div style={{fontSize: 96}}>{s.value}{unit ? <span style={{fontSize: 56}}> {unit}</span> : null}</div>}
 					</Plate>
 				</div>
 			))}

@@ -4,6 +4,7 @@ import {BarChart, IconGrid, Scale, Split, Steps} from './charts';
 import {ImageShot} from './media';
 import {BigText, Callout, Counter, SlideIn, SourceCaption} from './text';
 import {FPS, TimedShot} from './timing';
+import {Plate, SAFE} from './theme';
 
 const fr = (s?: number) => Math.round((s ?? 0) * FPS);
 
@@ -16,6 +17,7 @@ const fr = (s?: number) => Math.round((s ?? 0) * FPS);
    callout {from, to, text, at, color}       line + pill on the picture (screen fractions)
    counter {from, to, at, dur, label, suffix, color, pos}
    source                                    SourceCaption at the bottom
+   badges [..]                               small plates top-left: «схема, не измерения», «условно», …
    all `at` values are seconds from the start of the shot */
 export const Shot: React.FC<{shot: TimedShot}> = ({shot: s}) => {
 	const d = s.data ?? {};
@@ -38,6 +40,13 @@ export const Shot: React.FC<{shot: TimedShot}> = ({shot: s}) => {
 			{s.callout ? <Callout {...s.callout} at={fr(s.callout.at)} /> : null}
 			{s.counter ? <Counter {...s.counter} at={fr(s.counter.at)} dur={s.counter.dur ?? 30} /> : null}
 			{s.source ? <SourceCaption text={s.source} at={fr(s.sourceAt ?? 0.3)} /> : null}
+			{s.badges?.length ? (
+				<div style={{position: 'absolute', top: SAFE + 4, left: SAFE + 4, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 10}}>
+					{s.badges.map((b: string) => (
+						<Plate key={b} size={44} border="#ff9f1a" style={{padding: '8px 24px'}}>{b}</Plate>
+					))}
+				</div>
+			) : null}
 		</AbsoluteFill>
 	);
 };

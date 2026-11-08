@@ -20,7 +20,7 @@ for (const line of src) {
 	cur.slow += Math.max(1.5, t.length / 13) + gap;
 	if (w > (m[1] === 'N' ? 25 : 10)) console.log(`OVER ${m[1]} ${w}: ${t}`);
 }
-const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
+const mmss = (x) => { const s = Math.round(x); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
 let W = 0, C = 0, T = 0, S = 0;
 console.log('часть | реплик | слов | знаков | слов Σ | знаков Σ | время (15 зн/с) | начало–конец | при 13 зн/с');
 for (const p of parts) {
