@@ -31,7 +31,7 @@ fs.mkdirSync(outDir, {recursive: true});
 const madeFile = path.join(outDir, '.made-eleven.json');
 const made = fs.existsSync(madeFile) ? JSON.parse(fs.readFileSync(madeFile, 'utf8')) : {};
 
-const KEYS = [process.env.ELEVENLABS_API_KEY, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_2, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_3]
+const KEYS = [process.env.ELEVENLABS_API_KEY, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_2, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_3, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_4, key1Only ? undefined : process.env.ELEVENLABS_API_KEY_5]
 	.map((k, i) => (k ? {n: i + 1, k, sent: 0, start: null} : null))
 	.filter((k) => k && !skip.includes(k.n));
 if (!KEYS.length) throw new Error('ELEVENLABS_API_KEY is not set');

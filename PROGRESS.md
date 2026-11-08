@@ -182,3 +182,7 @@ ImageShot (push / pull / pan_left / pan_right), BigText (accent red/green/orange
 - kachok_handshake.jpg: левая фигура листа B (рамка 23,250–427,901), та же обработка, что у остальных поз; точки в anchors.json (16 поз). Заглушек 0.
 - 062: выноска «устали» на foot_front. 063: BigText слева, герой справа, выноска ищет место сама.
 - Раскадровка 114 кадров, листы по 12: out/storyboard/full_sheet_01..10.jpg (в git не входят), остатки: out/storyboard/problems.md.
+
+## Этап 9 (ролик): озвучка и timeline
+- ElevenLabs (ключ 5, 7 624 знака): N = George, HERO = Liam (`src/story/voices.json` из шаблона), `public/vo/*.mp3` 112 файлов, облачка 018b и 108b не озвучивались. `eleven-voice.mjs` теперь видит ключи 4 и 5.
+- `src/story/timeline.json` по реальным клипам: 538,2 с речи; Long с паузами облачек 9:03 (было 9:18 по оценке). check-plans, npm run check чисто.
