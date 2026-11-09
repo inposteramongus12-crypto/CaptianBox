@@ -1,0 +1,236 @@
+[
+ {
+  "line": "001",
+  "type": "scale",
+  "data": {
+   "left": {
+    "label": "качок",
+    "value": 100,
+    "color": "red"
+   },
+   "right": {
+    "label": "боксёр",
+    "value": 70,
+    "color": "green"
+   },
+   "unit": "кг"
+  },
+  "text": {
+   "lines": [
+    "*проиграет*"
+   ],
+   "accent": "red",
+   "pos": "top",
+   "at": 0.3
+  },
+  "badges": [
+   "условно"
+  ]
+ },
+ {
+  "line": "002",
+  "type": "image",
+  "img": "hero/hero_cross_rotation_3q_back",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.45
+  ],
+  "area": [
+   0.25,
+   0.75
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.5
+   ],
+   "to": [
+    0.5,
+    0.2
+   ],
+   "text": "стопа → бедро → плечо",
+   "at": 0.4,
+   "color": "orange",
+   "anchor": "hip"
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "003",
+  "type": "image",
+  "img": "hero/hero_heavy_bag",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.45
+  ],
+  "area": [
+   0.19,
+   0.67
+  ],
+  "text": {
+   "lines": [
+    "бьёт *всё тело*"
+   ],
+   "accent": "green",
+   "pos": "bottom",
+   "at": 0.3
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "004",
+  "type": "steps",
+  "data": {
+   "steps": [
+    "ноги",
+    "бедро",
+    "корпус",
+    "плечо",
+    "кулак"
+   ],
+   "color": "green"
+  },
+  "text": {
+   "lines": [
+    "Правило 1:",
+    "удар *от ног*"
+   ],
+   "accent": "green",
+   "pos": "top",
+   "at": 0.3
+  }
+ },
+ {
+  "line": "005",
+  "type": "image",
+  "img": "hero/hero_footwork_side",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.45
+  ],
+  "area": [
+   0.3,
+   0.76
+  ],
+  "text": {
+   "lines": [
+    "устали ноги —",
+    "*слабее удар*"
+   ],
+   "accent": "orange",
+   "pos": "top",
+   "at": 0.3
+  },
+  "source": "Dunn и др., 2022 (онлайн 2021) · 28 боксёров · PMID 33858296"
+ },
+ {
+  "line": "006",
+  "type": "image",
+  "img": "hero/punch_cross",
+  "effect": "push",
+  "pos": "center",
+  "focus": [
+   0.5,
+   0.45
+  ],
+  "area": [
+   0.14,
+   0.76
+  ],
+  "callout": {
+   "from": [
+    0.5,
+    0.5
+   ],
+   "to": [
+    0.5,
+    0.2
+   ],
+   "text": "разворот",
+   "at": 0.4,
+   "color": "red",
+   "anchor": "belly"
+  },
+  "text": {
+   "lines": [
+    "устали ноги:",
+    "*кросс и хук слабее*"
+   ],
+   "accent": "orange",
+   "pos": "bottom",
+   "size": 76,
+   "at": 0.3
+  }
+ },
+ {
+  "line": "007",
+  "type": "split",
+  "data": {
+   "a": {
+    "img": "hero/hero_cross_rotation_3q_back",
+    "label": "правило 1 · удар от ног",
+    "color": "green"
+   },
+   "b": {
+    "img": "hero/kachok_gasping_low_guard",
+    "label": "правило 4 · живут ноги",
+    "color": "red"
+   }
+  }
+ },
+ {
+  "line": "008",
+  "type": "split",
+  "data": {
+   "a": {
+    "img": "hero/kachok_wide_swing",
+    "label": "раунд 1 · качок сильнее",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/kachok_hands_knees",
+    "label": "раунд 3 · ноги кончились",
+    "color": "orange"
+   }
+  },
+  "badges": [
+   "схема, не измерения"
+  ]
+ },
+ {
+  "line": "009",
+  "type": "split",
+  "data": {
+   "a": {
+    "img": "hero/kachok_barbell",
+    "label": "",
+    "color": "red"
+   },
+   "b": {
+    "img": "hero/hero_heavy_bag",
+    "label": "",
+    "color": "green"
+   }
+  },
+  "text": {
+   "lines": [
+    "масса *или*",
+    "удар от ног?"
+   ],
+   "accent": "orange",
+   "pos": "center",
+   "size": 80,
+   "at": 0.3
+  }
+ }
+]

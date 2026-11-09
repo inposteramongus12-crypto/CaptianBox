@@ -36,11 +36,14 @@ for (const p of long) {
 	say(`  TOO LONG: shot ${p.shot} (line ${p.at}) at ${s(p.start)} lasts ${s(p.len)}${p.own ? ' — own shot: add cuts inside it and list them in ownCuts' : ''}`);
 }
 for (const p of tiny) say(`  note: very short plan, shot ${p.shot} at ${s(p.start)} (${s(p.len)}) — fine for a punch, check it is not an accident`);
-if (r.mode === 'recut') {
+if (r.short.length) {
+	const savg = r.short.reduce((a, p) => a + p.len, 0) / r.short.length;
+	say(`Short: ${r.short.length} plans, average ${s(savg)}, longest ${s(Math.max(...r.short.map((p) => p.len)))}, total ${s(r.shortTotal)}${r.shortTotal > 55 * 30 ? '  (over 55 s)' : ''}`);
 	for (const p of r.short.filter((x) => x.len > 300)) {
 		bad++;
-		say(`  TOO LONG in Short: segment ${p.line} at ${s(p.start)} lasts ${s(p.len)} — split it with a second segment (at: …)`);
+		say(`  TOO LONG in Short: shot ${p.line} at ${s(p.start)} lasts ${s(p.len)}`);
 	}
+	if (r.shortTotal > 60 * 30) { bad++; say(`  Short is longer than 60 s: ${s(r.shortTotal)}`); }
 }
 say(`whips: ${r.whips.length}, counter changes: ${r.counter.length} (sound cues written to src/story/auto-cues.json)`);
 say(bad ? `FAIL: ${bad} plan(s) over 10 s` : 'OK: every plan is 10 s or shorter');

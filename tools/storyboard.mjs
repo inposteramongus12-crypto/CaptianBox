@@ -29,7 +29,7 @@ if (!frames) {
 		const shots = new Map();
 		for (const p of r.plans) if (!shots.has(p.shot)) shots.set(p.shot, p);
 		frames = [...shots.values()].map((p) => p.start + 20);
-		if (comp === 'Short' && r.mode === 'recut') frames = r.short.map((s) => s.start + Math.round(s.len / 2));
+		if (comp === 'Short' && r.short.length) frames = r.short.map((s) => s.start + Math.round(s.len / 2));
 	} else frames = Array.from({length: 12}, (_, i) => Math.round(((i + 0.5) * target.durationInFrames) / 12));
 }
 frames = frames.filter((f) => f < target.durationInFrames);

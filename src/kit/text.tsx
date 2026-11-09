@@ -9,11 +9,13 @@ const parts = (s: string, ac: string, whole: boolean) => s.split('*').map((p, i)
 
 export type BigTextProps = {lines: string[]; accent?: string; pos?: 'top' | 'center' | 'bottom' | 'left' | 'right'; size?: number; at?: number; bottom?: number}; // bottom: distance of a 'bottom' plate from the frame edge (default 190)
 /* big title words: one navy plate per line, springs in, red / green / orange accent */
-export const BigText: React.FC<BigTextProps> = ({lines, accent: a = 'orange', pos = 'center', size, at = 0, bottom}) => {
+export const BigText: React.FC<BigTextProps> = ({lines, accent: a = 'orange', pos: pos0 = 'center', size, at = 0, bottom}) => {
+	let pos = pos0;
 	const f = useCurrentFrame();
 	const {fps} = useVideoConfig();
-	const {W, H, pad, big} = useLayout();
+	const {W, H, pad, big, v} = useLayout();
 	const fs = size ?? big;
+	if (v && (pos === 'left' || pos === 'right')) pos = 'bottom'; // a side plate is only 380 px wide on a vertical frame
 	const ac = accent(a);
 	const marked = lines.some((l) => l.includes('*'));
 	const box: React.CSSProperties =
@@ -141,11 +143,11 @@ export const SourceCaption: React.FC<{text: string; at?: number}> = ({text, at =
    shoulder; public/hero/anchors.json, found from the figure mask) and how the picture moves. The dot follows the point while the picture
    zooms / pans. The plate goes where it covers neither the figure (silhouette grid, checked at the start, middle and end of the move)
    nor `avoid` rectangles (badges, other plates), as near as possible to ~300 px from the point. */
-export type CalloutAnchor = {img: string; point: string; effect?: Effect; pos?: 'left' | 'center' | 'right'; focus?: [number, number]; zoom?: number};
+export type CalloutAnchor = {img: string; point: string; effect?: Effect; pos?: 'left' | 'center' | 'right'; focus?: [number, number]; zoom?: number; area?: [number, number]};
 type AnchorData = Record<string, number[] | string[]>;
 const place = (anchor: CalloutAnchor, W: number, H: number, pw: number, ph: number, avoid: number[][]) => {
 	const A = (ANCHORS as unknown as Record<string, AnchorData>)[anchor.img];
-	const g = imageGeom(anchor.img, anchor.effect ?? 'push', anchor.pos ?? 'center', anchor.focus ?? [0.5, 0.35], anchor.zoom ?? 0.25, W, H);
+	const g = imageGeom(anchor.img, anchor.effect ?? 'push', anchor.pos ?? 'center', anchor.focus ?? [0.5, 0.35], anchor.zoom ?? 0.25, W, H, anchor.area && [anchor.area[0] * H, anchor.area[1] * H]);
 	const pt = (A?.[anchor.point] as unknown as [number, number]) ?? [0.5, 0.5];
 	const mask = ((A?.mask as unknown as string[]) ?? []);
 	const R = mask.length;
@@ -166,7 +168,7 @@ const place = (anchor: CalloutAnchor, W: number, H: number, pw: number, ph: numb
 			let cost = Math.abs(Math.hypot(cx - a0[0], cy - a0[1]) - 300) + (cx < a0[0] ? 40 : 0);
 			for (let t = 3; t <= 12; t++) { // the leader line should not run over the body
 				const lx = a0[0] + ((cx - a0[0]) * t) / 12, ly = a0[1] + ((cy - a0[1]) * t) / 12;
-				if (rects[1].some((r) => lx > r[0] && lx < r[2] && ly > r[1] && ly < r[3])) cost += 25;
+				if (rects[1].some((r) => lx > r[0] && lx < r[2] && ly > r[1] && ly < r[3])) cost += 60;
 			}
 			if (cost < bestCost) { bestCost = cost; best = [cx, cy]; }
 		}

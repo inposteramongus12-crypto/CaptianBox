@@ -13,5 +13,9 @@ export const report = () => {
 	const tl = withPauses(defs, pickTimeline(lines, rd('timeline.json') as Timeline | null));
 	const shots = timeShots(defs, tl);
 	const plans = shots.map((s, i) => ({shot: i + 1, at: s.line, start: s.start, len: s.end - s.start, own: false}));
-	return {plans, whips: [] as number[], counter: [] as any[], short: [] as any[], mode: 'long', estimated: !!tl.estimated};
+	// vertical Short (recut from the long's clips): its own shots and timeline, if they exist
+	const stl = rd('short-timeline.json') as Timeline | null;
+	const sdefs = rd('short-shots.json') as ShotDef[] | null;
+	const short = stl && sdefs ? timeShots(sdefs, stl).map((s) => ({line: s.line, start: s.start, len: s.end - s.start})) : [];
+	return {plans, whips: [] as number[], counter: [] as any[], short, shortTotal: stl?.total ?? 0, mode: 'long', estimated: !!tl.estimated};
 };

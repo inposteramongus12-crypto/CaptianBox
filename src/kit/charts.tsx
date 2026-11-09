@@ -59,14 +59,14 @@ export const Scale: React.FC<{left: Side; right: Side; unit?: string; title?: st
 	const a = k * Math.max(-14, Math.min(14, ((right.value - left.value) / mx) * 40)); // deg, + = right side down
 	const rad = (a * Math.PI) / 180;
 	const cx = W / 2;
-	const cy = H * 0.3;
-	const L = Math.min(W * 0.24, 460);
+	const cy = v ? H * 0.34 : H * 0.3;
+	const L = v ? W * 0.3 : Math.min(W * 0.24, 460);
 	const ends = [
 		{s: left, x: cx - L * Math.cos(rad), y: cy - L * Math.sin(rad)},
 		{s: right, x: cx + L * Math.cos(rad), y: cy + L * Math.sin(rad)},
 	];
 	const drop = 220;
-	const pw = Math.min(540, W / 2 - pad);
+	const pw = v ? 400 : Math.min(540, W / 2 - pad);
 	return (
 		<AbsoluteFill style={{background: '#000'}}>
 			{title ? (
@@ -91,7 +91,7 @@ export const Scale: React.FC<{left: Side; right: Side; unit?: string; title?: st
 				})}
 			</svg>
 			{ends.map(({s, x, y}, i) => (
-				<div key={i} style={{position: 'absolute', left: x - pw / 2, width: pw, top: y + drop + 100, textAlign: 'center'}}>
+				<div key={i} style={{position: 'absolute', left: Math.max(pad, Math.min(W - pad - pw, x - pw / 2)), width: pw, top: y + drop + 100, textAlign: 'center'}}>
 					<Plate border={accent(s.color ?? (i ? 'green' : 'orange'))} style={{padding: '10px 24px'}}>
 						<div style={{fontSize: 58, color: COL.dim, fontWeight: 700}}>{s.label}</div>
 						{s.text !== undefined ? (s.text ? <div style={{fontSize: 80}}>{s.text}</div> : null) : <div style={{fontSize: 96}}>{s.value}{unit ? <span style={{fontSize: 56}}> {unit}</span> : null}</div>}
@@ -147,12 +147,15 @@ export const Steps: React.FC<{steps: string[]; title?: string; color?: string; i
 	const f = useCurrentFrame();
 	const {W, H, pad, v} = useLayout();
 	const c = accent(color);
-	const imgH = H * 0.62;
+	const rise0 = Math.min(v ? 260 : 170, (H - 190 - SAFE - 240) / Math.max(1, steps.length - 1));
+	const stairsTop = H - 190 - (240 + (steps.length - 1) * rise0);
+	// wide frame: the picture stands beside the stairs; vertical frame: above them
+	const imgH = v ? Math.max(0, Math.min(H * 0.36, stairsTop - pad - 150)) : H * 0.62;
 	const imgW = img ? imgH * (imgInfo(img)?.ar ?? 0.67) : 0;
 	// the stairs take whatever is left of the width, with an 80 px gap before the picture
-	const areaW = W - 2 * pad - (img ? imgW + 80 : 0);
+	const areaW = W - 2 * pad - (img && !v ? imgW + 80 : 0);
 	const sw = areaW / steps.length;
-	const rise = Math.min(170, (H - 190 - SAFE - 240) / Math.max(1, steps.length - 1)); // the last step never reaches the 60 px edge
+	const rise = Math.min(v ? 260 : 170, (H - 190 - SAFE - 240) / Math.max(1, steps.length - 1)); // the last step never reaches the 60 px edge
 	return (
 		<AbsoluteFill style={{background: '#000'}}>
 			{title ? (
@@ -166,7 +169,7 @@ export const Steps: React.FC<{steps: string[]; title?: string; color?: string; i
 				return (
 					<div key={i} style={{position: 'absolute', left: pad + i * sw, bottom: 190, width: sw - 10, height: h, background: '#1c2142', borderTop: `10px solid ${c}`, borderRadius: '14px 14px 0 0', overflow: 'hidden', textAlign: 'center', fontFamily: FONT, color: '#fff'}}>
 						<div style={{fontSize: 110, fontWeight: 900, color: c, lineHeight: 1.1}}>{i + 1}</div>
-						<div style={{fontSize: 46, fontWeight: 800, lineHeight: 1.1, padding: '0 10px'}}>{s}</div>
+						<div style={{fontSize: v ? 40 : 46, fontWeight: 800, lineHeight: 1.1, padding: '0 6px'}}>{s}</div>
 					</div>
 				);
 			})}
@@ -176,7 +179,7 @@ export const Steps: React.FC<{steps: string[]; title?: string; color?: string; i
 				</div>
 			) : null}
 			{img ? (
-				<div style={{position: 'absolute', left: W - pad - imgW, bottom: 190, opacity: interpolate(f, [4, 16], [0, 1], clampX)}}>
+				<div style={{position: 'absolute', left: v ? (W - imgW) / 2 : W - pad - imgW, ...(v ? {top: pad + 110} : {bottom: 190}), opacity: interpolate(f, [4, 16], [0, 1], clampX)}}>
 					<Pic name={img} height={imgH} />
 				</div>
 			) : null}
@@ -189,12 +192,32 @@ export type Half = {label: string; num?: string; sub?: string; foot?: string; im
 export const Split: React.FC<{a: Half; b: Half; center?: string}> = ({a, b, center}) => {
 	const f = useCurrentFrame();
 	const {fps} = useVideoConfig();
-	const {W, H, pad} = useLayout();
+	const {W, H, pad, v} = useLayout();
 	const ka = spring({frame: f, fps, config: {damping: 15, stiffness: 150}});
 	const kb = spring({frame: f - 5, fps, config: {damping: 15, stiffness: 150}});
-	const ih = H * 0.5;
+	const ih = v ? (a.label || b.label ? 680 : 640) : H * 0.5;
+	// vertical frame: two panels one above the other, a slightly slanted divider across the middle
+	const aTop = a.label ? 200 : 140;
+	const bTop = H - 140 - ih;
 	const half = (h: Half, first: boolean, k: number) => {
 		const c = accent(h.color ?? (first ? 'green' : 'orange'));
+		if (v) {
+			const clip = first ? 'polygon(0 0, 100% 0, 100% 52.6%, 0 47.4%)' : 'polygon(0 47.4%, 100% 52.6%, 100% 100%, 0 100%)';
+			const top = first ? aTop : bTop;
+			return (
+				<AbsoluteFill style={{transform: `translateY(${(first ? -1 : 1) * (1 - k) * H * 0.55}px)`}}>
+					<AbsoluteFill style={{background: first ? '#0b1020' : '#14090d', clipPath: clip}} />
+					{h.label ? (
+						<div style={{position: 'absolute', left: pad, right: pad, top: first ? pad : bTop - 125, textAlign: 'center'}}>
+							<Plate size={56} border={c}>{h.label}</Plate>
+						</div>
+					) : null}
+					<div style={{position: 'absolute', left: W / 2 - (ih * 848) / 1264 / 2, top}}>
+						<Pic name={h.img} height={ih} />
+					</div>
+				</AbsoluteFill>
+			);
+		}
 		const cx = first ? W * 0.25 : W * 0.75;
 		const clip = first ? 'polygon(0 0, 52.6% 0, 47.4% 100%, 0 100%)' : 'polygon(52.6% 0, 100% 0, 100% 100%, 47.4% 100%)';
 		return (
@@ -229,10 +252,10 @@ export const Split: React.FC<{a: Half; b: Half; center?: string}> = ({a, b, cent
 			{half(a, true, ka)}
 			{half(b, false, kb)}
 			<svg width={W} height={H} style={{position: 'absolute', inset: 0}}>
-				<line x1={W * 0.526} y1={0} x2={W * 0.474} y2={H} stroke="#fff" strokeWidth={8} opacity={Math.min(ka, kb)} />
+				{v ? <line x1={0} y1={H * 0.474} x2={W} y2={H * 0.526} stroke="#fff" strokeWidth={8} opacity={Math.min(ka, kb)} /> : <line x1={W * 0.526} y1={0} x2={W * 0.474} y2={H} stroke="#fff" strokeWidth={8} opacity={Math.min(ka, kb)} />}
 			</svg>
 			{center ? (
-				<div style={{position: 'absolute', left: 0, right: 0, top: pad, textAlign: 'center', opacity: Math.min(ka, kb)}}>
+				<div style={{position: 'absolute', left: 0, right: 0, top: v ? H / 2 - 60 : pad, textAlign: 'center', opacity: Math.min(ka, kb)}}>
 					<Plate size={56}>{center}</Plate>
 				</div>
 			) : null}

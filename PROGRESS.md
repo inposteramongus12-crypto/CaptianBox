@@ -191,3 +191,11 @@ ImageShot (push / pull / pan_left / pan_right), BigText (accent red/green/orange
 - Запуск: `render.yml`, composition=Long, range=`lines:001-112`, chunk=150 (режима «черновик» в workflow нет, обычное качество crf 18). Run: https://github.com/inposteramongus12-crypto/CaptianBox/actions/runs/42504898799 (success, ~10 мин, 108 кусков). Артефакт `video-Long-lines-001-112` (zip 96,9 МБ, хранится до 2026-11-22).
 - Файл: 1920×1080, 30 fps, h264 + aac 48 кГц стерео, 538,2 с (8:58), 96,9 МБ. Звук есть: громкость −16,0 LUFS, пик −1,4 dBFS, тишина только в последних 2 с.
 - Замечание: ожидалось 9:03 (543 с, композиция Long = 16 290 кадров). Workflow режет диапазон по `timeline.json` без пауз под немые облачка 018b и 108b (`withPauses` в `timing.ts`), поэтому отрендерены кадры 0–16145, а не 0–16289: теряются последние 4,8 с, а голос после реплик 018 и 108 звучит раньше картинки на 2,4 и 4,8 с. Ничего не чинилось.
+
+## Этап 11 (ролик): шортс A (вертикаль 1080×1920)
+- Реплики Long 001, 021, 022 (HERO), 029, 060, 063, 064, 097, 112 → `src/story/short-pick.json` (lead 8, gap 6, tail 30 кадров) → `short-timeline.json` (`node tools/make-short-timeline.mjs`): 9 реплик, 1445 кадров = 48,2 с. Клипы целиком (file, trimStart, dur совпадают с Long), озвучка не запускалась, `public/vo` не тронут.
+- `Short.tsx` по образцу `Long.tsx`: данные `src/kit/dataShort.ts` (short-timeline + `src/story/short-shots.json`, 9 кадров), голос из тех же клипов. `SHORT_FRAMES` = длина таймлайна.
+- Вертикаль: `Split` стопкой (верх/низ, диагональный разделитель), BigText сбоку в вертикали автоматически уходит вниз, `Steps` (шире ступени, без картинки сбоку) и `Scale` (шире рычаг, плашки в 60 px от края), у `ImageShot` поле `area` (доли высоты кадра, куда помещается герой, чтобы текст не лёг на него), zoom 1,25. Плашки «условно» и «схема, не измерения» в 64 px от края.
+- Финал: `kachok_barbell` сверху, `hero_heavy_bag` снизу, BigText «масса или удар от ног?».
+- Подложка: не создавалась (`bed_short.wav` в проекте нет, `short-sound.json` нет): Short без подложки, так же, как Long (join собирает пустую).
+- `check-plans` печатает Short (9 планов, средний 5,4 с, самый длинный 7,0 с, итого 48,2 с), `storyboard.mjs Short` берёт середины кадров шортса. Рендер не запускался. Остатки: `out/storyboard/problems_short.md`.
