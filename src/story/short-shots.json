@@ -137,79 +137,30 @@
  {
   "line": "006",
   "type": "image",
-  "img": "hero/punch_cross",
+  "img": "hero/kachok_stand_front",
   "effect": "push",
+  "zoom": 0.15,
   "pos": "center",
   "focus": [
    0.5,
    0.45
   ],
   "area": [
-   0.14,
-   0.76
+   0.235,
+   0.865
   ],
-  "callout": {
-   "from": [
-    0.5,
-    0.5
-   ],
-   "to": [
-    0.5,
-    0.2
-   ],
-   "text": "разворот",
-   "at": 0.4,
-   "color": "red",
-   "anchor": "belly"
-  },
   "text": {
    "lines": [
-    "устали ноги:",
-    "*кросс и хук слабее*"
+    "не большой,",
+    "*а не учился*"
    ],
-   "accent": "orange",
-   "pos": "bottom",
-   "size": 76,
+   "accent": "red",
+   "pos": "top",
    "at": 0.3
   }
  },
  {
   "line": "007",
-  "type": "split",
-  "data": {
-   "a": {
-    "img": "hero/hero_cross_rotation_3q_back",
-    "label": "правило 1 · удар от ног",
-    "color": "green"
-   },
-   "b": {
-    "img": "hero/kachok_gasping_low_guard",
-    "label": "правило 4 · живут ноги",
-    "color": "red"
-   }
-  }
- },
- {
-  "line": "008",
-  "type": "split",
-  "data": {
-   "a": {
-    "img": "hero/kachok_wide_swing",
-    "label": "раунд 1 · качок сильнее",
-    "color": "red"
-   },
-   "b": {
-    "img": "hero/kachok_hands_knees",
-    "label": "раунд 3 · ноги кончились",
-    "color": "orange"
-   }
-  },
-  "badges": [
-   "схема, не измерения"
-  ]
- },
- {
-  "line": "009",
   "type": "split",
   "data": {
    "a": {
