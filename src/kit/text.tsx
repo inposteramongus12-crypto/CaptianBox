@@ -188,8 +188,9 @@ export const Callout: React.FC<{from: [number, number]; to: [number, number]; te
 	const t = f - at;
 	if (t < 0) return null;
 	const draw = interpolate(t, [0, 14], [0, 1], {...clampX, easing: ease});
-	const pw = text.length * size * 0.56 + 72;
-	const ph = size * 1.7;
+	const rows = text.split('\n'); // \n in the text = several lines on the plate (narrow plates beside the hero)
+	const pw = Math.max(...rows.map((r) => r.length)) * size * 0.56 + 72;
+	const ph = rows.length === 1 ? size * 1.7 : rows.length * size * 1.15 + size * 0.6;
 	let fx = from[0] * W;
 	let fy = from[1] * H;
 	let tx = Math.min(W - pad - pw / 2, Math.max(pad + pw / 2, to[0] * W));
@@ -209,7 +210,9 @@ export const Callout: React.FC<{from: [number, number]; to: [number, number]; te
 				<line x1={fx} y1={fy} x2={tx} y2={ty} stroke={c} strokeWidth={6} strokeLinecap="round" strokeDasharray={len} strokeDashoffset={len * (1 - draw)} />
 				<g opacity={interpolate(t, [10, 18], [0, 1], clampX)}>
 					<rect x={tx - pw / 2} y={ty - ph / 2} width={pw} height={ph} rx={ph / 2} fill={COL.navy} stroke={c} strokeWidth={5} />
-					<text x={tx} y={ty + size * 0.34} textAnchor="middle" fontSize={size} fontFamily={FONT} fontWeight={800} fill="#fff">{text}</text>
+					{rows.map((r, i) => (
+						<text key={i} x={tx} y={ty - ((rows.length - 1) * size * 1.15) / 2 + i * size * 1.15 + size * 0.34} textAnchor="middle" fontSize={size} fontFamily={FONT} fontWeight={800} fill="#fff">{r}</text>
+					))}
 				</g>
 			</svg>
 		</AbsoluteFill>

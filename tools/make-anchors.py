@@ -133,7 +133,12 @@ def anchors(name, facing):
         fist = (xx[near].mean(), yy[near].mean())
     # shoulder: just under the head, towards the back arm side
     sh = (head[0] - (0.0 if facing == 'F' else (1 if facing == 'R' else -1) * fh * 0.02), hy + fh * 0.12)
-    pts = {'head': head, 'fist_front': fist, 'hip': hip, 'foot_front': foot_front, 'foot_back': foot_back, 'belly': belly, 'shoulder': sh}
+    # hip at the outline: where the silhouette ends on the row of the hip, in the facing direction (front) and behind (back), 8 px inside
+    rows = S[int(hip[1]) - 3:int(hip[1]) + 4].any(0); cols_h = np.nonzero(rows)[0]
+    inset = W * 0.012
+    right_edge, left_edge = (cols_h.max() - inset, cols_h.min() + inset)
+    hip_front, hip_back = ((left_edge, hip[1]), (right_edge, hip[1])) if facing == 'L' else ((right_edge, hip[1]), (left_edge, hip[1]))
+    pts = {'hip_front': hip_front, 'hip_back': hip_back, 'head': head, 'fist_front': fist, 'hip': hip, 'foot_front': foot_front, 'foot_back': foot_back, 'belly': belly, 'shoulder': sh}
     out = {k: [round(float(v[0]) / W, 4), round(float(v[1]) / H, 4)] for k, v in pts.items()}
     out.update(MANUAL.get(name, {}))
     gh = round(GRID * H / W)

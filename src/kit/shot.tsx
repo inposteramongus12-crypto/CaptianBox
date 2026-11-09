@@ -81,7 +81,7 @@ export const Shot: React.FC<{shot: TimedShot}> = ({shot: s}) => {
 	let base: React.ReactNode = <AbsoluteFill style={{background: '#000'}} />;
 	if (s.type === 'image') base = <ImageShot name={s.img} effect={s.effect} pos={s.pos} focus={s.focus} zoom={s.zoom} area={s.area} />;
 	if (s.type === 'icons') base = <IconGrid img={s.img} {...d} />;
-	if (s.type === 'split') base = <Split a={d.a} b={d.b} center={d.center} />;
+	if (s.type === 'split') base = <Split a={d.a} b={d.b} center={d.center} reserveBottom={W < H_ && badges.length && low ? SAFE + 4 + 80 + 60 - 60 + 20 : 0} />;
 	if (s.type === 'bar') base = <BarChart {...d} />;
 	if (s.type === 'scale') base = <Scale {...d} />;
 	if (s.type === 'steps') base = <Steps img={s.img} {...d} />;

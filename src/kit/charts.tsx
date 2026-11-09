@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {COL, FONT, Plate, SAFE, accent, clampX, useLayout} from './theme';
-import {Pic, imgInfo} from './media';
+import {Pic, imgBox, imgInfo} from './media';
 
 const useSpring = (at = 0, damping = 15, stiffness = 120) => {
 	const f = useCurrentFrame();
@@ -59,14 +59,14 @@ export const Scale: React.FC<{left: Side; right: Side; unit?: string; title?: st
 	const a = k * Math.max(-14, Math.min(14, ((right.value - left.value) / mx) * 40)); // deg, + = right side down
 	const rad = (a * Math.PI) / 180;
 	const cx = W / 2;
-	const cy = v ? H * 0.34 : H * 0.3;
+	const cy = v ? H * 0.4 : H * 0.3;
 	const L = v ? W * 0.3 : Math.min(W * 0.24, 460);
 	const ends = [
 		{s: left, x: cx - L * Math.cos(rad), y: cy - L * Math.sin(rad)},
 		{s: right, x: cx + L * Math.cos(rad), y: cy + L * Math.sin(rad)},
 	];
 	const drop = 220;
-	const pw = v ? 400 : Math.min(540, W / 2 - pad);
+	const pw = v ? 440 : Math.min(540, W / 2 - pad);
 	return (
 		<AbsoluteFill style={{background: '#000'}}>
 			{title ? (
@@ -93,8 +93,8 @@ export const Scale: React.FC<{left: Side; right: Side; unit?: string; title?: st
 			{ends.map(({s, x, y}, i) => (
 				<div key={i} style={{position: 'absolute', left: Math.max(pad, Math.min(W - pad - pw, x - pw / 2)), width: pw, top: y + drop + 100, textAlign: 'center'}}>
 					<Plate border={accent(s.color ?? (i ? 'green' : 'orange'))} style={{padding: '10px 24px'}}>
-						<div style={{fontSize: 58, color: COL.dim, fontWeight: 700}}>{s.label}</div>
-						{s.text !== undefined ? (s.text ? <div style={{fontSize: 80}}>{s.text}</div> : null) : <div style={{fontSize: 96}}>{s.value}{unit ? <span style={{fontSize: 56}}> {unit}</span> : null}</div>}
+						<div style={{fontSize: v ? 70 : 58, color: COL.dim, fontWeight: 700}}>{s.label}</div>
+						{s.text !== undefined ? (s.text ? <div style={{fontSize: v ? 104 : 80}}>{s.text}</div> : null) : <div style={{fontSize: v ? 132 : 96}}>{s.value}{unit ? <span style={{fontSize: v ? 76 : 56}}> {unit}</span> : null}</div>}
 					</Plate>
 				</div>
 			))}
@@ -189,32 +189,54 @@ export const Steps: React.FC<{steps: string[]; title?: string; color?: string; i
 
 /* ---------- Split: two panels with pictures slide in from opposite sides ---------- */
 export type Half = {label: string; num?: string; sub?: string; foot?: string; img: string; color?: string}; // label '' = no pill; foot = a second plate under the picture
-export const Split: React.FC<{a: Half; b: Half; center?: string}> = ({a, b, center}) => {
+export const Split: React.FC<{a: Half; b: Half; center?: string; reserveBottom?: number}> = ({a, b, center, reserveBottom = 0}) => {
 	const f = useCurrentFrame();
 	const {fps} = useVideoConfig();
 	const {W, H, pad, v} = useLayout();
 	const ka = spring({frame: f, fps, config: {damping: 15, stiffness: 150}});
 	const kb = spring({frame: f - 5, fps, config: {damping: 15, stiffness: 150}});
 	const ih = v ? (a.label || b.label ? 680 : 640) : H * 0.5;
-	// vertical frame: two panels one above the other, a slightly slanted divider across the middle
-	const aTop = a.label ? 200 : 140;
-	const bTop = H - 140 - ih;
+	// vertical frame: two panels one above the other, a barely slanted divider across the middle (y 0.488 H at the left, 0.512 H at the right).
+	// Pictures are sized by the FIGURE (the box from images.json), not by the file: >= 60 px from the frame edge, from the pills and from the divider.
+	const lab = !!(a.label || b.label);
+	const lh = 94; // height of a 50 px pill
+	const aFigTop = a.label ? pad - 16 + lh + 60 : 60;
+	const aFigBot = H * 0.5 - 11 - 60; // the divider is at most 11 px above the middle over the width of a figure
+	const bLabTop = H * 0.512 + 60; // under the lowest point of the divider (right edge), + 60
+	const bFigTop = b.label ? bLabTop + lh + 60 : H * 0.5 + 11 + 60;
+	const bFigBot = H - 60 - reserveBottom; // reserveBottom: room for a badge row at the bottom (vertical frame)
+	const centerGap = !lab ? 125 : 0; // room for a two-line BigText between pictures when there are no pills
+	const zoneA: [number, number] = [aFigTop, aFigBot - centerGap];
+	const zoneB: [number, number] = [bFigTop + centerGap, bFigBot];
+	const fhA = zoneA[1] - zoneA[0];
+	const fhB = zoneB[1] - zoneB[0];
+	const fh = reserveBottom ? Math.max(fhA, fhB) : Math.min(fhA, fhB); // equal heights, unless a badge squeezes the lower picture
+	const box0 = (img: string) => (imgBox(img) ?? [0, 0, 1, 1])[1];
+	const fig = (h: Half, zone: [number, number]) => {
+		const box = imgBox(h.img) ?? [0, 0, 1, 1];
+		const fhz = Math.min(fh, zone[1] - zone[0]);
+		const ph = fhz / (box[3] - box[1]);
+		return {ph, fhz, top: zone[0] + (zone[1] - zone[0] - fhz) / 2 - box[1] * ph};
+	};
 	const half = (h: Half, first: boolean, k: number) => {
 		const c = accent(h.color ?? (first ? 'green' : 'orange'));
 		if (v) {
-			const clip = first ? 'polygon(0 0, 100% 0, 100% 52.6%, 0 47.4%)' : 'polygon(0 47.4%, 100% 52.6%, 100% 100%, 0 100%)';
-			const top = first ? aTop : bTop;
+			const clip = first ? 'polygon(0 0, 100% 0, 100% 51.2%, 0 48.8%)' : 'polygon(0 48.8%, 100% 51.2%, 100% 100%, 0 100%)';
+			const g = fig(h, first ? zoneA : zoneB);
 			return (
 				<AbsoluteFill style={{transform: `translateY(${(first ? -1 : 1) * (1 - k) * H * 0.55}px)`}}>
 					<AbsoluteFill style={{background: first ? '#0b1020' : '#14090d', clipPath: clip}} />
+					{/* the picture is cut to the figure's box and its black background drops out (lighten), so it never covers a pill or the divider */}
+					<div style={{position: 'absolute', left: 0, width: W, top: g.top + box0(h.img) * g.ph, height: g.fhz, overflow: 'hidden'}}>
+						<div style={{position: 'absolute', left: W / 2 - (g.ph * (imgInfo(h.img)?.ar ?? 0.67)) / 2, top: -box0(h.img) * g.ph, mixBlendMode: 'lighten'}}>
+							<Pic name={h.img} height={g.ph} />
+						</div>
+					</div>
 					{h.label ? (
-						<div style={{position: 'absolute', left: pad, right: pad, top: first ? pad : bTop - 125, textAlign: 'center'}}>
-							<Plate size={56} border={c}>{h.label}</Plate>
+						<div style={{position: 'absolute', left: pad, right: pad, top: first ? pad - 16 : bLabTop, textAlign: 'center'}}>
+							<Plate size={50} border={c}>{h.label}</Plate>
 						</div>
 					) : null}
-					<div style={{position: 'absolute', left: W / 2 - (ih * 848) / 1264 / 2, top}}>
-						<Pic name={h.img} height={ih} />
-					</div>
 				</AbsoluteFill>
 			);
 		}
@@ -252,7 +274,7 @@ export const Split: React.FC<{a: Half; b: Half; center?: string}> = ({a, b, cent
 			{half(a, true, ka)}
 			{half(b, false, kb)}
 			<svg width={W} height={H} style={{position: 'absolute', inset: 0}}>
-				{v ? <line x1={0} y1={H * 0.474} x2={W} y2={H * 0.526} stroke="#fff" strokeWidth={8} opacity={Math.min(ka, kb)} /> : <line x1={W * 0.526} y1={0} x2={W * 0.474} y2={H} stroke="#fff" strokeWidth={8} opacity={Math.min(ka, kb)} />}
+				{v ? <line x1={0} y1={H * 0.488} x2={W} y2={H * 0.512} stroke="#fff" strokeWidth={8} opacity={Math.min(ka, kb)} /> : <line x1={W * 0.526} y1={0} x2={W * 0.474} y2={H} stroke="#fff" strokeWidth={8} opacity={Math.min(ka, kb)} />}
 			</svg>
 			{center ? (
 				<div style={{position: 'absolute', left: 0, right: 0, top: v ? H / 2 - 60 : pad, textAlign: 'center', opacity: Math.min(ka, kb)}}>

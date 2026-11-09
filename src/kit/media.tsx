@@ -13,6 +13,8 @@ export const imgInfo = (name?: string) => {
 	return e ? {src: staticFile(e.file), ar: e.w / e.h, label, missing: false} : {src: null as string | null, ar: 848 / 1264, label, missing: true};
 };
 
+export const imgBox = (name?: string): number[] | undefined => (name ? (IMAGES as Record<string, {box?: number[]}>)[name]?.box : undefined);
+
 export const Pic: React.FC<{name: string; height: number; style?: React.CSSProperties}> = ({name, height, style}) => {
 	const i = imgInfo(name);
 	if (!i) return null;
